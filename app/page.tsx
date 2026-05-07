@@ -4,6 +4,7 @@ import SessionGrid from "@/components/SessionGrid";
 import { getAllGrammaire } from "@/lib/parse-grammaire";
 import { getAllExamens } from "@/lib/parse-examen";
 import AppHeader from "@/components/AppHeader";
+import ActivityCalendar from "@/components/ActivityCalendar";
 
 export default function Home() {
   const lessons = getAllLessons();
@@ -96,15 +97,19 @@ export default function Home() {
           </div>
         </div>
 
-        <div id="sessions">
-        {lessons.length === 0 ? (
-          <div className="text-center py-16 text-dim">
-            <p className="text-lg font-bold">Aucune session trouvée.</p>
-            <p className="mt-2 text-sm">Ajoutez un fichier <code className="bg-frost px-1.5 py-0.5 rounded font-mono text-xs">session-N.md</code> dans <code className="bg-frost px-1.5 py-0.5 rounded font-mono text-xs">/content/</code>.</p>
+        <div id="sessions" className="flex gap-6 items-start">
+          <div className="flex-1 min-w-0">
+            {lessons.length === 0 ? (
+              <div className="text-center py-16 text-dim">
+                <p className="text-lg font-bold">Aucune session trouvée.</p>
+              </div>
+            ) : (
+              <SessionGrid lessons={lessons} />
+            )}
           </div>
-        ) : (
-          <SessionGrid lessons={lessons} />
-        )}
+          <div className="hidden lg:block w-64 flex-shrink-0 sticky top-6">
+            <ActivityCalendar />
+          </div>
         </div>
       </main>
     </div>

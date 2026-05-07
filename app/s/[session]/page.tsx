@@ -57,7 +57,7 @@ export default async function SessionPage({ params }: { params: Promise<{ sessio
         </div>
       </div>
 
-      <LessonTabs items={lesson.items} allItems={allItems} />
+      <LessonTabs items={lesson.items} allItems={allItems} sessionNum={sessionNum} />
     </div>
   );
 }

@@ -12,14 +12,22 @@ function shuffle<T>(arr: T[]): T[] {
   return a;
 }
 
-export default function Flashcards({ items }: { items: VocabItem[] }) {
+export default function Flashcards({ items, onDone }: { items: VocabItem[]; onDone?: () => void }) {
   const [cards, setCards] = useState(items);
   const [index, setIndex] = useState(0);
   const [flipped, setFlipped] = useState(false);
+  const [notified, setNotified] = useState(false);
 
   const current = cards[index];
 
-  const next = useCallback(() => { setIndex((i) => Math.min(i + 1, cards.length - 1)); setFlipped(false); }, [cards.length]);
+  const next = useCallback(() => {
+    setIndex((i) => {
+      const n = Math.min(i + 1, cards.length - 1);
+      if (n === cards.length - 1 && !notified) { setNotified(true); onDone?.(); }
+      return n;
+    });
+    setFlipped(false);
+  }, [cards.length, notified, onDone]);
   const prev = useCallback(() => { setIndex((i) => Math.max(i - 1, 0)); setFlipped(false); }, []);
 
   useEffect(() => {

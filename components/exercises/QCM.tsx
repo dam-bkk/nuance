@@ -23,7 +23,7 @@ function buildOptions(item: VocabItem, allItems: VocabItem[]): string[] {
 type Question = { item: VocabItem; options: string[] };
 type Result = { item: VocabItem; chosen: string; correct: boolean };
 
-export default function QCM({ items, allItems }: { items: VocabItem[]; allItems: VocabItem[] }) {
+export default function QCM({ items, allItems, onDone }: { items: VocabItem[]; allItems: VocabItem[]; onDone?: () => void }) {
   const questions: Question[] = useMemo(
     () => items.map((item) => ({ item, options: buildOptions(item, allItems) })),
     [items, allItems]
@@ -43,7 +43,7 @@ export default function QCM({ items, allItems }: { items: VocabItem[]; allItems:
     const correct = opt === current.item.definition;
     const newResults = [...results, { item: current.item, chosen: opt, correct }];
     setTimeout(() => {
-      if (index + 1 >= questions.length) { setResults(newResults); setDone(true); }
+      if (index + 1 >= questions.length) { setResults(newResults); setDone(true); onDone?.(); }
       else { setResults(newResults); setIndex(index + 1); setChosen(null); }
     }, 900);
   }

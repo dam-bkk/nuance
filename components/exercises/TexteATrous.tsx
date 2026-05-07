@@ -26,7 +26,7 @@ function shuffle<T>(arr: T[]): T[] {
 type Question = { item: VocabItem; before: string; after: string; choices: string[] };
 type Result = { item: VocabItem; correct: boolean; given: string };
 
-export default function TexteATrous({ items }: { items: VocabItem[] }) {
+export default function TexteATrous({ items, onDone }: { items: VocabItem[]; onDone?: () => void }) {
   const questions: Question[] = useMemo(() => {
     const qs: Question[] = [];
     for (const item of items) {
@@ -57,7 +57,7 @@ export default function TexteATrous({ items }: { items: VocabItem[] }) {
     const correct = word === current.item.word;
     const newResults = [...results, { item: current.item, correct, given: word }];
     setTimeout(() => {
-      if (index + 1 >= questions.length) { setResults(newResults); setDone(true); }
+      if (index + 1 >= questions.length) { setResults(newResults); setDone(true); onDone?.(); }
       else { setResults(newResults); setIndex(index + 1); setChosen(null); }
     }, 1000);
   }

@@ -16,7 +16,7 @@ function shuffle<T>(arr: T[]): T[] {
 type Question = { item: VocabItem; correct: string; choices: string[] };
 type Result   = { item: VocabItem; correct: string; given: string; ok: boolean };
 
-export default function SynonymeQuiz({ items, allItems }: { items: VocabItem[]; allItems: VocabItem[] }) {
+export default function SynonymeQuiz({ items, allItems, onDone }: { items: VocabItem[]; allItems: VocabItem[]; onDone?: () => void }) {
   const questions: Question[] = useMemo(() => {
     const eligible = items.filter((i) => i.synonymes.length > 0);
     const pool     = allItems.filter((i) => i.synonymes.length > 0);
@@ -76,7 +76,7 @@ export default function SynonymeQuiz({ items, allItems }: { items: VocabItem[]; 
     const ok = word === current.correct;
     const newResults = [...results, { item: current.item, correct: current.correct, given: word, ok }];
     setTimeout(() => {
-      if (index + 1 >= questions.length) { setResults(newResults); setDone(true); }
+      if (index + 1 >= questions.length) { setResults(newResults); setDone(true); onDone?.(); }
       else { setResults(newResults); setIndex(index + 1); setChosen(null); }
     }, 900);
   }

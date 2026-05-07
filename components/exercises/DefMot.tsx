@@ -16,7 +16,7 @@ function shuffle<T>(arr: T[]): T[] {
 type Question = { item: VocabItem; choices: string[] };
 type Result   = { item: VocabItem; correct: boolean; given: string };
 
-export default function DefMot({ items, allItems }: { items: VocabItem[]; allItems: VocabItem[] }) {
+export default function DefMot({ items, allItems, onDone }: { items: VocabItem[]; allItems: VocabItem[]; onDone?: () => void }) {
   const questions: Question[] = useMemo(() => {
     return shuffle(items).slice(0, 10).map((item) => {
       const pool = allItems.filter((i) => i.word !== item.word);
@@ -72,7 +72,7 @@ export default function DefMot({ items, allItems }: { items: VocabItem[]; allIte
     const correct = word === current.item.word;
     const newResults = [...results, { item: current.item, correct, given: word }];
     setTimeout(() => {
-      if (index + 1 >= questions.length) { setResults(newResults); setDone(true); }
+      if (index + 1 >= questions.length) { setResults(newResults); setDone(true); onDone?.(); }
       else { setResults(newResults); setIndex(index + 1); setChosen(null); }
     }, 900);
   }

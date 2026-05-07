@@ -60,7 +60,7 @@ function DroppableSyn({ id, synText, wordPlaced, verified, correct }: {
   );
 }
 
-export default function GlisserDeposer({ items }: { items: VocabItem[] }) {
+export default function GlisserDeposer({ items, onDone }: { items: VocabItem[]; onDone?: () => void }) {
   const eligible = useMemo(
     () => items.filter((item) => item.synonymes.length > 0).slice(0, 10),
     [items]
@@ -204,7 +204,7 @@ export default function GlisserDeposer({ items }: { items: VocabItem[] }) {
         {/* Actions */}
         <div className="flex gap-3">
           <button
-            onClick={() => setVerified(true)}
+            onClick={() => { setVerified(true); onDone?.(); }}
             disabled={!allPlaced}
             className="flex-1 py-4 rounded-2xl bg-cobalt text-white text-sm font-black hover:bg-navy transition-colors disabled:opacity-40">
             Vérifier
