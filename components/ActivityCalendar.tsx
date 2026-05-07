@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { getMonthActivity } from "@/lib/activity";
+import { isClassDay } from "@/lib/class-schedule";
 
 const MONTHS_FR = ["Janvier","Février","Mars","Avril","Mai","Juin","Juillet","Août","Septembre","Octobre","Novembre","Décembre"];
 const DAYS_FR = ["L","M","M","J","V","S","D"];
@@ -28,7 +29,8 @@ export default function ActivityCalendar() {
   const firstDay = new Date(year, month - 1, 1).getDay();
   const offset = firstDay === 0 ? 6 : firstDay - 1;
   const daysInMonth = new Date(year, month, 0).getDate();
-  const today = now.getFullYear() === year && now.getMonth() + 1 === month ? now.getDate() : -1;
+  const todayDate = now.getFullYear() === year && now.getMonth() + 1 === month ? now.getDate() : -1;
+  const todayIso = now.toISOString().slice(0, 10);
 
   const cells: (number | null)[] = [
     ...Array(offset).fill(null),
@@ -47,6 +49,10 @@ export default function ActivityCalendar() {
     }
     return s;
   })();
+
+  const classDaysThisMonth = Array.from({ length: daysInMonth }, (_, i) => i + 1)
+    .filter(d => isClassDay(year, month, d));
+  const classDaysDone = classDaysThisMonth.filter(d => activeDays.has(d)).length;
 
   return (
     <div className="bg-white rounded-3xl p-5">
@@ -74,33 +80,54 @@ export default function ActivityCalendar() {
         ))}
         {cells.map((day, i) => {
           if (!day) return <div key={i} />;
-          const active = activeDays.has(day);
-          const isToday = day === today;
-          const isClassDay = new Date(year, month - 1, day).getDay() === 4; // Thursday
+
+          const iso = `${year}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+          const practiced = activeDays.has(day);
+          const classDay = isClassDay(year, month, day);
+          const isToday = day === todayDate;
+          const isPast = iso < todayIso;
+
+          let cellCls = "w-full h-full rounded-lg flex items-center justify-center text-xs font-bold transition-colors ";
+          if (practiced) {
+            cellCls += "bg-cobalt text-white";
+          } else if (classDay && isPast) {
+            // missed class day
+            cellCls += "bg-crimson/10 text-crimson border border-crimson/30";
+          } else if (classDay) {
+            // upcoming class day
+            cellCls += "border-2 border-cobalt/40 text-cobalt";
+          } else if (isToday) {
+            cellCls += "border-2 border-cobalt text-cobalt";
+          } else {
+            cellCls += "text-dim";
+          }
+
           return (
-            <div key={i} className="relative aspect-square flex items-center justify-center">
-              <div
-                className={`w-full h-full rounded-lg flex items-center justify-center text-xs font-bold transition-colors ${
-                  active
-                    ? "bg-cobalt text-white"
-                    : isToday
-                    ? "border-2 border-cobalt text-cobalt"
-                    : "text-dim"
-                }`}
-              >
-                {day}
-              </div>
-              {isClassDay && !active && (
-                <span className="absolute bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-cobalt/40" />
-              )}
+            <div key={i} className="aspect-square flex items-center justify-center">
+              <div className={cellCls}>{day}</div>
             </div>
           );
         })}
       </div>
 
-      <p className="text-[10px] text-dim font-semibold mt-3 text-center">
-        {activeDays.size} jour{activeDays.size !== 1 ? "s" : ""} pratiqué{activeDays.size !== 1 ? "s" : ""} ce mois
-      </p>
+      {classDaysThisMonth.length > 0 && (
+        <div className="mt-3 pt-3 border-t border-edge flex items-center justify-between">
+          <p className="text-[10px] text-dim font-semibold">Cours pratiqués</p>
+          <p className="text-[10px] font-black text-cobalt">{classDaysDone}/{classDaysThisMonth.length}</p>
+        </div>
+      )}
+
+      <div className="mt-2 flex items-center gap-3 flex-wrap">
+        <span className="flex items-center gap-1 text-[10px] text-dim font-semibold">
+          <span className="inline-block w-2.5 h-2.5 rounded bg-cobalt" /> Pratiqué
+        </span>
+        <span className="flex items-center gap-1 text-[10px] text-dim font-semibold">
+          <span className="inline-block w-2.5 h-2.5 rounded border-2 border-cobalt/40" /> Cours
+        </span>
+        <span className="flex items-center gap-1 text-[10px] text-dim font-semibold">
+          <span className="inline-block w-2.5 h-2.5 rounded bg-crimson/10 border border-crimson/30" /> Manqué
+        </span>
+      </div>
     </div>
   );
 }
