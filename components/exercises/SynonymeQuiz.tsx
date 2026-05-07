@@ -23,8 +23,9 @@ export default function SynonymeQuiz({ items, allItems, onDone }: { items: Vocab
     return shuffle(eligible).slice(0, 10).map((item) => {
       const correct = item.synonymes[0];
       const distractors = shuffle(pool.filter((i) => i.word !== item.word))
-        .slice(0, 3)
-        .map((i) => i.synonymes[0]);
+        .map((i) => i.synonymes[0])
+        .filter((s, idx, arr) => s !== correct && arr.indexOf(s) === idx)
+        .slice(0, 3);
       return { item, correct, choices: shuffle([correct, ...distractors]) };
     });
   }, [items, allItems]);
@@ -44,7 +45,7 @@ export default function SynonymeQuiz({ items, allItems, onDone }: { items: Vocab
     const mistakes = results.filter((r) => !r.ok);
     return (
       <div className="max-w-lg mx-auto space-y-6">
-        <div className="bg-cobalt rounded-4xl p-10 flex flex-col items-center gap-4">
+        <div className="bg-cobalt rounded-4xl p-6 sm:p-10 flex flex-col items-center gap-4">
           <ScoreCircle score={score} total={questions.length} />
           <p className="text-sm font-extrabold text-white/80">bonnes réponses</p>
         </div>
@@ -52,7 +53,7 @@ export default function SynonymeQuiz({ items, allItems, onDone }: { items: Vocab
           <div className="space-y-3">
             <h3 className="text-xs font-black uppercase tracking-widest text-dim">À revoir</h3>
             {mistakes.map((r, i) => (
-              <div key={i} className="bg-white rounded-2xl p-4">
+              <div key={i} className="bg-surface rounded-2xl p-4">
                 <p className="font-black text-ink">{r.item.word}</p>
                 <p className="text-xs text-dim mt-0.5">Synonymes : <span className="font-semibold text-ink">{r.item.synonymes.join(", ")}</span></p>
                 <p className="text-xs text-crimson mt-1 font-semibold">Répondu : «&nbsp;{r.given}&nbsp;»</p>
@@ -96,7 +97,7 @@ export default function SynonymeQuiz({ items, allItems, onDone }: { items: Vocab
       </div>
 
       {/* Blue word card */}
-      <div className="bg-cobalt rounded-4xl p-10 relative overflow-hidden">
+      <div className="bg-cobalt rounded-4xl p-6 sm:p-10 relative overflow-hidden">
         <div className="absolute -top-8 -right-8 w-36 h-36 bg-white/5 rounded-full" />
         <div className="relative">
           <p className="text-xs font-extrabold text-white/60 uppercase tracking-widest mb-4">Quel est le synonyme ?</p>
@@ -110,13 +111,13 @@ export default function SynonymeQuiz({ items, allItems, onDone }: { items: Vocab
         {current.choices.map((word) => {
           let cls = "py-4 px-4 rounded-2xl border-2 text-sm font-black transition-all duration-150 text-center ";
           if (chosen === null)
-            cls += "border-edge bg-white text-ink hover:border-cobalt hover:bg-frost cursor-pointer";
+            cls += "border-edge bg-surface text-ink hover:border-cobalt hover:bg-frost cursor-pointer";
           else if (word === current.correct)
             cls += "border-emerald-400 bg-emerald-50 text-emerald-800";
           else if (word === chosen)
             cls += "border-crimson/40 bg-crimson/5 text-crimson";
           else
-            cls += "border-edge bg-white text-dim opacity-35";
+            cls += "border-edge bg-surface text-dim opacity-35";
           return <button key={word} className={cls} onClick={() => handleChoice(word)}>{word}</button>;
         })}
       </div>

@@ -82,6 +82,7 @@ function MoonIcon() {
 export default function WelcomeBar() {
   const [time, setTime] = useState("");
   const [dateStr, setDateStr] = useState("");
+  const [city, setCity] = useState("");
   const [weather, setWeather] = useState<{ temp: number; desc: string; icon: "sun"|"cloud"|"rain"|"storm"|"fog" } | null>(null);
   const [dark, setDark] = useState(false);
 
@@ -90,9 +91,8 @@ export default function WelcomeBar() {
 
     const tick = () => {
       const now = new Date();
-      const bkk = new Date(now.toLocaleString("en-US", { timeZone: "Asia/Bangkok" }));
-      setTime(bkk.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" }));
-      setDateStr(`${DAYS_FR[bkk.getDay()]} ${bkk.getDate()} ${MONTHS_FR[bkk.getMonth()]}`);
+      setTime(now.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" }));
+      setDateStr(`${DAYS_FR[now.getDay()]} ${now.getDate()} ${MONTHS_FR[now.getMonth()]}`);
     };
     tick();
     const id = setInterval(tick, 1000);
@@ -100,15 +100,36 @@ export default function WelcomeBar() {
   }, []);
 
   useEffect(() => {
-    fetch("https://api.open-meteo.com/v1/forecast?latitude=13.7563&longitude=100.5018&current=temperature_2m,weather_code&timezone=Asia%2FBangkok")
-      .then(r => r.json())
-      .then(d => {
-        const code = d.current.weather_code as number;
-        const temp = Math.round(d.current.temperature_2m as number);
-        const info = getWmo(code);
-        setWeather({ temp, desc: info.fr, icon: info.icon });
-      })
-      .catch(() => {});
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        const { latitude: lat, longitude: lon } = pos.coords;
+        // Reverse geocode + weather in parallel
+        Promise.all([
+          fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`)
+            .then(r => r.json())
+            .then(d => d.address?.city || d.address?.town || d.address?.village || d.address?.county || ""),
+          fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code&timezone=auto`)
+            .then(r => r.json()),
+        ]).then(([cityName, weather]) => {
+          setCity(cityName);
+          const code = weather.current.weather_code as number;
+          const temp = Math.round(weather.current.temperature_2m as number);
+          setWeather({ temp, desc: getWmo(code).fr, icon: getWmo(code).icon });
+        }).catch(() => {});
+      },
+      () => {
+        // Fallback to Bangkok if geolocation denied
+        setCity("Bangkok");
+        fetch("https://api.open-meteo.com/v1/forecast?latitude=13.7563&longitude=100.5018&current=temperature_2m,weather_code&timezone=Asia%2FBangkok")
+          .then(r => r.json())
+          .then(d => {
+            const code = d.current.weather_code as number;
+            const temp = Math.round(d.current.temperature_2m as number);
+            setWeather({ temp, desc: getWmo(code).fr, icon: getWmo(code).icon });
+          }).catch(() => {});
+      },
+      { timeout: 6000 }
+    );
   }, []);
 
   function toggleTheme() {
@@ -128,17 +149,17 @@ export default function WelcomeBar() {
       </span>
 
       {/* Right: time · city · weather · toggle */}
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-2 sm:gap-3">
         <span className="text-white/70 text-[11px] font-bold tabular-nums">
           {time || "--:--"}
         </span>
-        <span className="text-white/30 text-[10px]">·</span>
-        <span className="text-white/50 text-[11px] font-bold">Bangkok</span>
+        <span className="hidden sm:inline text-white/30 text-[10px]">·</span>
+        {city && <span className="hidden sm:inline text-white/50 text-[11px] font-bold">{city}</span>}
 
         {weather && (
           <>
-            <span className="text-white/30 text-[10px]">·</span>
-            <span className="flex items-center gap-1 text-white/60 text-[11px] font-bold">
+            <span className="hidden sm:inline text-white/30 text-[10px]">·</span>
+            <span className="hidden sm:flex items-center gap-1 text-white/60 text-[11px] font-bold">
               {WeatherIcon && <WeatherIcon />}
               {weather.temp}°C
             </span>

@@ -19,7 +19,7 @@ export default function Home() {
     <div className="min-h-screen bg-pg transition-colors duration-300">
       <AppHeader />
 
-      <main className="max-w-4xl mx-auto px-6 py-10">
+      <main className="max-w-4xl mx-auto px-4 sm:px-6 py-6 sm:py-10">
         {/* Hero + module nav side by side */}
         <div className="flex flex-col sm:flex-row gap-4 mb-10 items-stretch">
           {/* Left: module nav 33% */}
@@ -60,7 +60,7 @@ export default function Home() {
           </div>
 
           {/* Right: hero 66% */}
-          <div className="bg-cobalt rounded-4xl p-8 relative overflow-hidden sm:w-2/3">
+          <div className="bg-cobalt rounded-4xl p-5 sm:p-8 relative overflow-hidden sm:w-2/3">
             <div className="absolute -top-12 -right-12 w-48 h-48 bg-white/5 rounded-full" />
             <div className="absolute -bottom-10 left-16 w-36 h-36 bg-white/5 rounded-full" />
             <div className="absolute top-6 right-20 w-16 h-16 bg-white/5 rounded-full" />

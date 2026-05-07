@@ -55,7 +55,7 @@ export default function QCM({ items, allItems, onDone }: { items: VocabItem[]; a
     const mistakes = results.filter((r) => !r.correct);
     return (
       <div className="max-w-lg mx-auto space-y-6">
-        <div className="bg-cobalt rounded-4xl p-10 flex flex-col items-center gap-4">
+        <div className="bg-cobalt rounded-4xl p-6 sm:p-10 flex flex-col items-center gap-4">
           <ScoreCircle score={score} total={questions.length} />
           <p className="text-sm font-extrabold text-white/80">bonnes réponses</p>
         </div>
@@ -63,7 +63,7 @@ export default function QCM({ items, allItems, onDone }: { items: VocabItem[]; a
           <div className="space-y-3">
             <h3 className="text-xs font-black uppercase tracking-widest text-dim">À revoir</h3>
             {mistakes.map((r, i) => (
-              <div key={i} className="bg-white rounded-2xl p-4 shadow-sm">
+              <div key={i} className="bg-surface rounded-2xl p-4 shadow-sm">
                 <p className="font-black text-ink">{r.item.word}</p>
                 <p className="text-xs text-crimson mt-1 font-semibold line-through">{r.chosen}</p>
                 <p className="text-xs font-semibold mt-0.5" style={{ color: "#059669" }}>{r.item.definition}</p>
@@ -91,7 +91,7 @@ export default function QCM({ items, allItems, onDone }: { items: VocabItem[]; a
       </div>
 
       {/* Blue question card */}
-      <div className="bg-cobalt rounded-4xl p-10 text-center">
+      <div className="bg-cobalt rounded-4xl p-6 sm:p-10 text-center">
         <p className="text-xs font-extrabold text-white/60 uppercase tracking-widest mb-3">{current.item.nature}</p>
         <p className="text-4xl font-black text-white leading-tight">{current.item.word}</p>
         <p className="text-sm font-bold text-white/50 mt-4">Quelle est la définition ?</p>
@@ -102,13 +102,13 @@ export default function QCM({ items, allItems, onDone }: { items: VocabItem[]; a
         {current.options.map((opt, i) => {
           let cls = "w-full text-left p-4 rounded-2xl border-2 text-sm font-bold transition-all duration-150 ";
           if (chosen === null)
-            cls += "border-edge bg-white text-ink hover:border-cobalt hover:bg-frost cursor-pointer";
+            cls += "border-edge bg-surface text-ink hover:border-cobalt hover:bg-frost cursor-pointer";
           else if (opt === current.item.definition)
             cls += "border-emerald-400 bg-emerald-50 text-emerald-800";
           else if (opt === chosen)
             cls += "border-crimson/40 bg-crimson/5 text-crimson";
           else
-            cls += "border-edge bg-white text-dim opacity-40";
+            cls += "border-edge bg-surface text-dim opacity-40";
           return <button key={i} className={cls} onClick={() => handleChoice(opt)}>{opt}</button>;
         })}
       </div>

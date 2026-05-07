@@ -112,7 +112,7 @@ export default function GlisserDeposer({ items, onDone }: { items: VocabItem[]; 
     });
     return (
       <div className="max-w-lg mx-auto space-y-6">
-        <div className="bg-cobalt rounded-4xl p-10 flex flex-col items-center gap-4">
+        <div className="bg-cobalt rounded-4xl p-6 sm:p-10 flex flex-col items-center gap-4">
           <ScoreCircle score={correctCount} total={synCards.length} />
           <p className="text-sm font-extrabold text-white/80">bonnes paires</p>
         </div>

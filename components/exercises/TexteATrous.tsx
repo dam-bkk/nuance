@@ -69,7 +69,7 @@ export default function TexteATrous({ items, onDone }: { items: VocabItem[]; onD
     const mistakes = results.filter((r) => !r.correct);
     return (
       <div className="max-w-lg mx-auto space-y-6">
-        <div className="bg-cobalt rounded-4xl p-10 flex flex-col items-center gap-4">
+        <div className="bg-cobalt rounded-4xl p-6 sm:p-10 flex flex-col items-center gap-4">
           <ScoreCircle score={score} total={questions.length} />
           <p className="text-sm font-extrabold text-white/80">bonnes réponses</p>
         </div>
@@ -77,7 +77,7 @@ export default function TexteATrous({ items, onDone }: { items: VocabItem[]; onD
           <div className="space-y-3">
             <h3 className="text-xs font-black uppercase tracking-widest text-dim">À revoir</h3>
             {mistakes.map((r, i) => (
-              <div key={i} className="bg-white rounded-2xl p-4 shadow-sm">
+              <div key={i} className="bg-surface rounded-2xl p-4 shadow-sm">
                 <p className="font-black text-ink">{r.item.word}</p>
                 <p className="text-xs text-crimson mt-1 font-semibold">Répondu : «&nbsp;{r.given}&nbsp;»</p>
                 <p className="text-xs font-semibold mt-0.5" style={{ color: "#059669" }}>Correct : «&nbsp;{r.item.word}&nbsp;»</p>
@@ -105,7 +105,7 @@ export default function TexteATrous({ items, onDone }: { items: VocabItem[]; onD
       </div>
 
       {/* Blue sentence card */}
-      <div className="bg-cobalt rounded-4xl p-10">
+      <div className="bg-cobalt rounded-4xl p-6 sm:p-10">
         <p className="text-xs font-extrabold text-white/60 uppercase tracking-widest mb-4">Complétez la phrase</p>
         <p className="text-lg font-bold text-white leading-relaxed">
           {current.before}
@@ -119,13 +119,13 @@ export default function TexteATrous({ items, onDone }: { items: VocabItem[]; onD
         {current.choices.map((word) => {
           let cls = "py-4 px-4 rounded-2xl border-2 text-sm font-black transition-all duration-150 text-center ";
           if (chosen === null)
-            cls += "border-edge bg-white text-ink hover:border-cobalt hover:bg-frost cursor-pointer";
+            cls += "border-edge bg-surface text-ink hover:border-cobalt hover:bg-frost cursor-pointer";
           else if (word === current.item.word)
             cls += "border-emerald-400 bg-emerald-50 text-emerald-800";
           else if (word === chosen)
             cls += "border-crimson/40 bg-crimson/5 text-crimson";
           else
-            cls += "border-edge bg-white text-dim opacity-35";
+            cls += "border-edge bg-surface text-dim opacity-35";
           return <button key={word} className={cls} onClick={() => handleChoice(word)}>{word}</button>;
         })}
       </div>

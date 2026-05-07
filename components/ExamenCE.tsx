@@ -49,7 +49,7 @@ export default function ExamenCE({ examen }: { examen: Examen }) {
     const mistakes = allQuestions.filter((q) => !isCorrect(q));
     return (
       <div className="max-w-lg mx-auto space-y-6">
-        <div className="bg-cobalt rounded-4xl p-10 flex flex-col items-center gap-4">
+        <div className="bg-cobalt rounded-4xl p-6 sm:p-10 flex flex-col items-center gap-4">
           <ScoreCircle score={score} total={total} />
           <p className="text-sm font-extrabold text-white/80">bonnes réponses</p>
         </div>
@@ -62,10 +62,10 @@ export default function ExamenCE({ examen }: { examen: Examen }) {
                 ? (typeof givenAns === "number" ? q.a?.[givenAns] : "—")
                 : VFND_LABELS[givenAns as keyof typeof VFND_LABELS] ?? "—";
               const correctLabel = q.type === "qcm"
-                ? q.a?.[q.c!]
-                : VFND_LABELS[q.vfnd!];
+                ? (q.a && q.c != null ? q.a[q.c] : "—")
+                : (q.vfnd ? VFND_LABELS[q.vfnd] : "—");
               return (
-                <div key={q.globalIndex} className="bg-white rounded-2xl p-4">
+                <div key={q.globalIndex} className="bg-surface rounded-2xl p-4">
                   <p className="text-xs font-black text-dim mb-1">Q{q.globalIndex + 1}</p>
                   <p className="font-semibold text-ink text-sm">{q.q}</p>
                   <p className="text-xs text-crimson mt-1 font-semibold">Répondu : {givenLabel}</p>
@@ -90,7 +90,7 @@ export default function ExamenCE({ examen }: { examen: Examen }) {
         return (
           <div key={ti} className="space-y-4">
             {/* Text passage */}
-            <div className="bg-white rounded-3xl p-6 border border-edge">
+            <div className="bg-surface rounded-3xl p-6 border border-edge">
               <div className="flex items-start justify-between mb-4">
                 <div>
                   <p className="text-[10px] font-black uppercase tracking-widest text-cobalt mb-1">Texte {ti + 1}</p>
@@ -109,7 +109,7 @@ export default function ExamenCE({ examen }: { examen: Examen }) {
             {texteQs.map((q) => {
               const chosen = answers[q.globalIndex];
               return (
-                <div key={q.globalIndex} className="bg-white rounded-2xl p-5">
+                <div key={q.globalIndex} className="bg-surface rounded-2xl p-5">
                   <p className="text-sm font-black text-ink mb-3">
                     <span className="text-cobalt mr-1">{q.globalIndex + 1}.</span>
                     {q.q}

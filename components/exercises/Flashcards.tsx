@@ -53,7 +53,7 @@ export default function Flashcards({ items, onDone }: { items: VocabItem[]; onDo
 
       <div
         onClick={() => setFlipped((f) => !f)}
-        className={`w-full rounded-4xl p-10 flex flex-col items-center justify-center min-h-72 cursor-pointer transition-colors duration-200 select-none ${
+        className={`w-full rounded-4xl p-6 sm:p-10 flex flex-col items-center justify-center min-h-60 sm:min-h-72 cursor-pointer transition-colors duration-200 select-none ${
           flipped ? "bg-white border-2 border-edge" : "bg-cobalt"
         }`}
       >

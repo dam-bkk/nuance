@@ -40,7 +40,7 @@ export default function DefMot({ items, allItems, onDone }: { items: VocabItem[]
     const mistakes = results.filter((r) => !r.correct);
     return (
       <div className="max-w-lg mx-auto space-y-6">
-        <div className="bg-cobalt rounded-4xl p-10 flex flex-col items-center gap-4">
+        <div className="bg-cobalt rounded-4xl p-6 sm:p-10 flex flex-col items-center gap-4">
           <ScoreCircle score={score} total={questions.length} />
           <p className="text-sm font-extrabold text-white/80">bonnes réponses</p>
         </div>
@@ -92,7 +92,7 @@ export default function DefMot({ items, allItems, onDone }: { items: VocabItem[]
       </div>
 
       {/* Blue definition card */}
-      <div className="bg-cobalt rounded-4xl p-10 relative overflow-hidden">
+      <div className="bg-cobalt rounded-4xl p-6 sm:p-10 relative overflow-hidden">
         <div className="absolute -top-8 -right-8 w-36 h-36 bg-white/5 rounded-full" />
         <div className="relative">
           <p className="text-xs font-extrabold text-white/60 uppercase tracking-widest mb-4">Quel est ce mot ?</p>
