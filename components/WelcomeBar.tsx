@@ -83,42 +83,47 @@ export default function WelcomeBar() {
   const [time, setTime] = useState("");
   const [dateStr, setDateStr] = useState("");
   const [city, setCity] = useState("");
+  const [tz, setTz] = useState("Asia/Bangkok");
   const [weather, setWeather] = useState<{ temp: number; desc: string; icon: "sun"|"cloud"|"rain"|"storm"|"fog" } | null>(null);
   const [dark, setDark] = useState(false);
 
   useEffect(() => {
     try { setDark(localStorage.getItem("nuance-theme") === "dark"); } catch {}
+  }, []);
 
+  // Clock — re-runs whenever tz resolves from geolocation
+  useEffect(() => {
     const tick = () => {
       const now = new Date();
-      setTime(now.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" }));
-      setDateStr(`${DAYS_FR[now.getDay()]} ${now.getDate()} ${MONTHS_FR[now.getMonth()]}`);
+      const local = new Date(now.toLocaleString("en-US", { timeZone: tz }));
+      setTime(local.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" }));
+      setDateStr(`${DAYS_FR[local.getDay()]} ${local.getDate()} ${MONTHS_FR[local.getMonth()]}`);
     };
     tick();
     const id = setInterval(tick, 1000);
     return () => clearInterval(id);
-  }, []);
+  }, [tz]);
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(
       (pos) => {
         const { latitude: lat, longitude: lon } = pos.coords;
-        // Reverse geocode + weather in parallel
         Promise.all([
           fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`)
             .then(r => r.json())
             .then(d => d.address?.city || d.address?.town || d.address?.village || d.address?.county || ""),
           fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code&timezone=auto`)
             .then(r => r.json()),
-        ]).then(([cityName, weather]) => {
+        ]).then(([cityName, wd]) => {
           setCity(cityName);
-          const code = weather.current.weather_code as number;
-          const temp = Math.round(weather.current.temperature_2m as number);
+          if (wd.timezone) setTz(wd.timezone);
+          const code = wd.current.weather_code as number;
+          const temp = Math.round(wd.current.temperature_2m as number);
           setWeather({ temp, desc: getWmo(code).fr, icon: getWmo(code).icon });
         }).catch(() => {});
       },
       () => {
-        // Fallback to Bangkok if geolocation denied
+        // Fallback: Bangkok
         setCity("Bangkok");
         fetch("https://api.open-meteo.com/v1/forecast?latitude=13.7563&longitude=100.5018&current=temperature_2m,weather_code&timezone=Asia%2FBangkok")
           .then(r => r.json())
