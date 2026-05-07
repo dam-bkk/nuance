@@ -9,46 +9,36 @@ import GlisserDeposer from "./exercises/GlisserDeposer";
 import TexteATrous from "./exercises/TexteATrous";
 
 const TABS = [
-  { value: "apercu",      label: "Aperçu" },
-  { value: "flashcards",  label: "Flashcards" },
-  { value: "qcm",         label: "QCM" },
-  { value: "glisser",     label: "Glisser-déposer" },
-  { value: "trous",       label: "Texte à trous" },
-] as const;
-
-type TabValue = typeof TABS[number]["value"];
+  { id: "apercu",      label: "Aperçu" },
+  { id: "flashcards",  label: "Flashcards" },
+  { id: "qcm",         label: "QCM" },
+  { id: "glisser",     label: "Match" },
+  { id: "trous",       label: "Texte à trous" },
+];
 
 export default function LessonTabs({ items, allItems }: { items: VocabItem[]; allItems: VocabItem[] }) {
-  const [active, setActive] = useState<TabValue>("apercu");
+  const [active, setActive] = useState("apercu");
 
   return (
-    <div className="w-full">
-      {/* Sticky tab bar */}
-      <div className="sticky top-0 z-10 bg-white shadow-[0_1px_0_#E0E4F5]">
-        <div className="max-w-4xl mx-auto px-6">
-          <div className="flex gap-0 overflow-x-auto scrollbar-none">
-            {TABS.map((tab) => {
-              const isActive = tab.value === active;
-              return (
-                <button
-                  key={tab.value}
-                  onClick={() => setActive(tab.value)}
-                  className={[
-                    "relative flex-shrink-0 px-4 py-3.5 text-sm font-medium transition-colors duration-150 border-b-2 whitespace-nowrap",
-                    isActive
-                      ? "border-cobalt text-cobalt"
-                      : "border-transparent text-dim hover:text-ink hover:bg-frost",
-                  ].join(" ")}
-                >
-                  {tab.label}
-                </button>
-              );
-            })}
-          </div>
+    <div>
+      <div className="sticky top-0 z-10 bg-white border-b border-edge shadow-sm">
+        <div className="max-w-4xl mx-auto px-4 flex overflow-x-auto">
+          {TABS.map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => setActive(tab.id)}
+              className={`px-5 py-4 text-sm font-extrabold whitespace-nowrap border-b-[3px] transition-colors ${
+                active === tab.id
+                  ? "border-cobalt text-cobalt"
+                  : "border-transparent text-dim hover:text-ink"
+              }`}
+            >
+              {tab.label}
+            </button>
+          ))}
         </div>
       </div>
 
-      {/* Content */}
       <div className="max-w-4xl mx-auto px-6 py-8">
         {active === "apercu"     && <Apercu items={items} />}
         {active === "flashcards" && <Flashcards items={items} />}

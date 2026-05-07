@@ -11,10 +11,7 @@ function normalize(s: string): string {
 function blankSentence(sentence: string, word: string) {
   const idx = normalize(sentence).indexOf(normalize(word));
   if (idx === -1) return null;
-  return {
-    before: sentence.slice(0, idx),
-    after: sentence.slice(idx + word.length),
-  };
+  return { before: sentence.slice(0, idx), after: sentence.slice(idx + word.length) };
 }
 
 function shuffle<T>(arr: T[]): T[] {
@@ -50,7 +47,7 @@ export default function TexteATrous({ items }: { items: VocabItem[] }) {
   const [done, setDone] = useState(false);
 
   if (questions.length === 0)
-    return <p className="text-dim text-center py-12">Aucun exemple disponible pour cet exercice.</p>;
+    return <p className="text-dim text-center py-12 font-semibold">Aucun exemple disponible.</p>;
 
   const current = questions[index];
 
@@ -72,28 +69,24 @@ export default function TexteATrous({ items }: { items: VocabItem[] }) {
     const mistakes = results.filter((r) => !r.correct);
     return (
       <div className="max-w-lg mx-auto space-y-6">
-        <div className="bg-white rounded-2xl p-8 shadow-[0_2px_12px_rgba(8,13,38,0.08)] flex flex-col items-center gap-3">
+        <div className="bg-cobalt rounded-4xl p-10 flex flex-col items-center gap-4">
           <ScoreCircle score={score} total={questions.length} />
-          <p className="text-sm font-medium text-dim">bonnes réponses</p>
+          <p className="text-sm font-extrabold text-white/80">bonnes réponses</p>
         </div>
         {mistakes.length > 0 && (
           <div className="space-y-3">
-            <h3 className="text-[10px] font-bold uppercase tracking-widest text-dim">À revoir</h3>
+            <h3 className="text-xs font-black uppercase tracking-widest text-dim">À revoir</h3>
             {mistakes.map((r, i) => (
-              <div key={i} className="bg-white rounded-xl p-4 shadow-[0_2px_8px_rgba(8,13,38,0.06)]">
-                <p className="font-bold text-ink">{r.item.word}</p>
-                <p className="text-xs text-crimson mt-1">Répondu : «&nbsp;{r.given}&nbsp;»</p>
-                <p className="text-xs font-semibold mt-0.5" style={{ color: "#059669" }}>
-                  Correct : «&nbsp;{r.item.word}&nbsp;»
-                </p>
+              <div key={i} className="bg-white rounded-2xl p-4 shadow-sm">
+                <p className="font-black text-ink">{r.item.word}</p>
+                <p className="text-xs text-crimson mt-1 font-semibold">Répondu : «&nbsp;{r.given}&nbsp;»</p>
+                <p className="text-xs font-semibold mt-0.5" style={{ color: "#059669" }}>Correct : «&nbsp;{r.item.word}&nbsp;»</p>
               </div>
             ))}
           </div>
         )}
-        <button
-          onClick={restart}
-          className="w-full py-3 rounded-xl bg-cobalt text-white text-sm font-semibold hover:bg-navy transition-colors"
-        >
+        <button onClick={restart}
+          className="w-full py-4 rounded-2xl bg-cobalt text-white text-sm font-black hover:bg-navy transition-colors">
           Recommencer
         </button>
       </div>
@@ -101,48 +94,39 @@ export default function TexteATrous({ items }: { items: VocabItem[] }) {
   }
 
   return (
-    <div className="max-w-lg mx-auto space-y-5">
-      {/* Progress dots */}
-      <div className="flex items-center justify-between text-xs text-dim">
-        <span className="font-semibold">{index + 1} / {questions.length}</span>
-        <div className="flex gap-1">
+    <div className="max-w-lg mx-auto space-y-4">
+      <div className="flex items-center gap-3">
+        <div className="flex gap-1 flex-1">
           {questions.map((_, i) => (
-            <div
-              key={i}
-              className={`h-1.5 w-5 rounded-full transition-colors ${
-                i < index ? "bg-cobalt/40" : i === index ? "bg-cobalt" : "bg-edge"
-              }`}
-            />
+            <div key={i} className={`h-2 rounded-full flex-1 transition-colors ${i < index ? "bg-cobalt/40" : i === index ? "bg-cobalt" : "bg-edge"}`} />
           ))}
         </div>
+        <span className="text-xs font-extrabold text-dim shrink-0">{index + 1}/{questions.length}</span>
       </div>
 
-      {/* Sentence with blank */}
-      <div className="bg-white rounded-2xl p-8 shadow-[0_2px_12px_rgba(8,13,38,0.08)]">
-        <p className="text-ink text-base leading-relaxed font-medium">
+      {/* Blue sentence card */}
+      <div className="bg-cobalt rounded-4xl p-10">
+        <p className="text-xs font-extrabold text-white/60 uppercase tracking-widest mb-4">Complétez la phrase</p>
+        <p className="text-lg font-bold text-white leading-relaxed">
           {current.before}
-          <span className="inline-block border-b-[3px] border-cobalt w-24 mx-1 align-bottom" />
+          <span className="inline-block bg-white/20 rounded-lg px-3 mx-1 min-w-[5rem] text-center text-white/40">_____</span>
           {current.after}
         </p>
       </div>
 
-      {/* 2×2 choice grid */}
+      {/* 2×2 white choice grid */}
       <div className="grid grid-cols-2 gap-3">
         {current.choices.map((word) => {
-          let cls = "py-3.5 px-4 rounded-xl border text-sm font-semibold transition-all duration-150 text-center ";
+          let cls = "py-4 px-4 rounded-2xl border-2 text-sm font-black transition-all duration-150 text-center ";
           if (chosen === null)
             cls += "border-edge bg-white text-ink hover:border-cobalt hover:bg-frost cursor-pointer";
           else if (word === current.item.word)
-            cls += "border-emerald-300 bg-emerald-50 text-emerald-800";
+            cls += "border-emerald-400 bg-emerald-50 text-emerald-800";
           else if (word === chosen)
-            cls += "border-crimson/30 bg-crimson/5 text-crimson";
+            cls += "border-crimson/40 bg-crimson/5 text-crimson";
           else
             cls += "border-edge bg-white text-dim opacity-35";
-          return (
-            <button key={word} className={cls} onClick={() => handleChoice(word)}>
-              {word}
-            </button>
-          );
+          return <button key={word} className={cls} onClick={() => handleChoice(word)}>{word}</button>;
         })}
       </div>
     </div>

@@ -1,8 +1,12 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Nunito } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
+const nunito = Nunito({
+  subsets: ["latin"],
+  variable: "--font-sans",
+  weight: ["400", "600", "700", "800", "900"],
+});
 
 export const metadata: Metadata = {
   title: "LexiC1 — Préparation DELF C1",
@@ -11,8 +15,8 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="fr" className={inter.variable}>
-      <body className="font-sans antialiased bg-pg text-ink">{children}</body>
+    <html lang="fr" className={nunito.variable}>
+      <body className="font-sans antialiased">{children}</body>
     </html>
   );
 }

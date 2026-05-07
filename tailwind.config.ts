@@ -9,7 +9,6 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // shadcn CSS var tokens — keep unchanged so shadcn components don't break
         background: "var(--background)",
         foreground: "var(--foreground)",
         card: { DEFAULT: "var(--card)", foreground: "var(--card-foreground)" },
@@ -22,20 +21,21 @@ const config: Config = {
         border: "var(--border)",
         input: "var(--input)",
         ring: "var(--ring)",
-        // Design tokens — new premium palette
-        pg:      "#F4F6FF", // page background, very slightly blue-tinted
-        ink:     "#080D26", // near-black for headings
-        navy:    "#0D1B6E", // dark indigo, matches logo
-        cobalt:  "#1835D8", // primary action blue
-        crimson: "#CC1628", // accent red
-        dim:     "#6B7698", // muted / secondary text
-        edge:    "#E0E4F5", // borders, subtle
-        frost:   "#EDF0FF", // hover backgrounds
+        // Frello-inspired palette
+        pg:      "#F0F2FF",   // page background
+        ink:     "#0F1023",   // near-black
+        navy:    "#2A35C4",   // hover / dark blue
+        cobalt:  "#3B4EF5",   // primary Frello blue
+        crimson: "#E5193A",   // error / red
+        dim:     "#6B7280",   // muted text
+        edge:    "#E5E7EB",   // borders
+        frost:   "#EEF0FF",   // hover bg
       },
       fontFamily: {
         sans: ["var(--font-sans)", "sans-serif"],
       },
       borderRadius: {
+        "4xl": "2rem",
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",

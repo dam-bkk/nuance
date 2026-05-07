@@ -4,35 +4,31 @@
 
 @layer base {
   :root {
-    --background: #F4F6FF;
-    --foreground: #080D26;
+    --background: #F0F2FF;
+    --foreground: #0F1023;
     --card: #FFFFFF;
-    --card-foreground: #080D26;
+    --card-foreground: #0F1023;
     --popover: #FFFFFF;
-    --popover-foreground: #080D26;
-    --primary: #1835D8;
+    --popover-foreground: #0F1023;
+    --primary: #3B4EF5;
     --primary-foreground: #FFFFFF;
-    --secondary: #EDF0FF;
-    --secondary-foreground: #080D26;
-    --muted: #EDF0FF;
-    --muted-foreground: #6B7698;
-    --accent: #CC1628;
+    --secondary: #EEF0FF;
+    --secondary-foreground: #0F1023;
+    --muted: #EEF0FF;
+    --muted-foreground: #6B7280;
+    --accent: #E5193A;
     --accent-foreground: #FFFFFF;
-    --destructive: #CC1628;
+    --destructive: #E5193A;
     --destructive-foreground: #FFFFFF;
-    --border: #E0E4F5;
-    --input: #E0E4F5;
-    --ring: #1835D8;
-    --radius: 0.75rem;
+    --border: #E5E7EB;
+    --input: #E5E7EB;
+    --ring: #3B4EF5;
+    --radius: 1rem;
   }
-
-  * {
-    border-color: #E0E4F5;
-  }
-
+  * { border-color: #E5E7EB; }
   body {
-    background-color: #F4F6FF;
-    color: #080D26;
+    background-color: #F0F2FF;
+    color: #0F1023;
     font-family: var(--font-sans), sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;

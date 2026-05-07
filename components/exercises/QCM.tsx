@@ -40,13 +40,12 @@ export default function QCM({ items, allItems }: { items: VocabItem[]; allItems:
   function handleChoice(opt: string) {
     if (chosen !== null) return;
     setChosen(opt);
-  }
-
-  function handleNext() {
-    if (!chosen) return;
-    const newResults = [...results, { item: current.item, chosen, correct: isCorrect }];
-    if (index + 1 >= questions.length) { setResults(newResults); setDone(true); }
-    else { setResults(newResults); setIndex(index + 1); setChosen(null); }
+    const correct = opt === current.item.definition;
+    const newResults = [...results, { item: current.item, chosen: opt, correct }];
+    setTimeout(() => {
+      if (index + 1 >= questions.length) { setResults(newResults); setDone(true); }
+      else { setResults(newResults); setIndex(index + 1); setChosen(null); }
+    }, 900);
   }
 
   function restart() { setIndex(0); setChosen(null); setResults([]); setDone(false); }
@@ -56,28 +55,24 @@ export default function QCM({ items, allItems }: { items: VocabItem[]; allItems:
     const mistakes = results.filter((r) => !r.correct);
     return (
       <div className="max-w-lg mx-auto space-y-6">
-        <div className="bg-white rounded-2xl p-8 shadow-[0_2px_12px_rgba(8,13,38,0.08)] flex flex-col items-center gap-3">
+        <div className="bg-cobalt rounded-4xl p-10 flex flex-col items-center gap-4">
           <ScoreCircle score={score} total={questions.length} />
-          <p className="text-sm font-medium text-dim">bonnes réponses</p>
+          <p className="text-sm font-extrabold text-white/80">bonnes réponses</p>
         </div>
-
         {mistakes.length > 0 && (
           <div className="space-y-3">
-            <h3 className="text-[10px] font-bold uppercase tracking-widest text-dim">À revoir</h3>
+            <h3 className="text-xs font-black uppercase tracking-widest text-dim">À revoir</h3>
             {mistakes.map((r, i) => (
-              <div key={i} className="bg-white rounded-xl p-4 shadow-[0_2px_8px_rgba(8,13,38,0.06)] space-y-1.5">
-                <p className="font-bold text-ink">{r.item.word}</p>
-                <p className="text-xs text-crimson line-through opacity-70">{r.chosen}</p>
-                <p className="text-xs font-semibold" style={{ color: "#059669" }}>{r.item.definition}</p>
+              <div key={i} className="bg-white rounded-2xl p-4 shadow-sm">
+                <p className="font-black text-ink">{r.item.word}</p>
+                <p className="text-xs text-crimson mt-1 font-semibold line-through">{r.chosen}</p>
+                <p className="text-xs font-semibold mt-0.5" style={{ color: "#059669" }}>{r.item.definition}</p>
               </div>
             ))}
           </div>
         )}
-
-        <button
-          onClick={restart}
-          className="w-full py-3 rounded-xl bg-cobalt text-white text-sm font-semibold hover:bg-navy transition-colors"
-        >
+        <button onClick={restart}
+          className="w-full py-4 rounded-2xl bg-cobalt text-white text-sm font-black hover:bg-navy transition-colors">
           Recommencer
         </button>
       </div>
@@ -85,57 +80,38 @@ export default function QCM({ items, allItems }: { items: VocabItem[]; allItems:
   }
 
   return (
-    <div className="max-w-lg mx-auto space-y-5">
-      {/* Progress dots */}
-      <div className="flex items-center justify-between text-xs text-dim">
-        <span className="font-semibold">{index + 1} / {questions.length}</span>
-        <div className="flex gap-1">
+    <div className="max-w-lg mx-auto space-y-4">
+      <div className="flex items-center gap-3">
+        <div className="flex gap-1 flex-1">
           {questions.map((_, i) => (
-            <div
-              key={i}
-              className={`h-1.5 w-5 rounded-full transition-colors ${
-                i < index ? "bg-cobalt/40" : i === index ? "bg-cobalt" : "bg-edge"
-              }`}
-            />
+            <div key={i} className={`h-2 rounded-full flex-1 transition-colors ${i < index ? "bg-cobalt/40" : i === index ? "bg-cobalt" : "bg-edge"}`} />
           ))}
         </div>
+        <span className="text-xs font-extrabold text-dim shrink-0">{index + 1}/{questions.length}</span>
       </div>
 
-      {/* Word card */}
-      <div className="bg-white rounded-2xl p-8 shadow-[0_2px_12px_rgba(8,13,38,0.08)] text-center">
-        <p className="text-3xl font-bold text-ink tracking-tight">{current.item.word}</p>
-        <p className="text-xs font-medium text-dim uppercase tracking-widest mt-2">{current.item.nature}</p>
+      {/* Blue question card */}
+      <div className="bg-cobalt rounded-4xl p-10 text-center">
+        <p className="text-xs font-extrabold text-white/60 uppercase tracking-widest mb-3">{current.item.nature}</p>
+        <p className="text-4xl font-black text-white leading-tight">{current.item.word}</p>
+        <p className="text-sm font-bold text-white/50 mt-4">Quelle est la définition ?</p>
       </div>
 
-      {/* Options — left-border hover style */}
-      <div className="space-y-2.5">
+      {/* White option buttons */}
+      <div className="space-y-3">
         {current.options.map((opt, i) => {
-          let cls = "w-full text-left px-5 py-4 rounded-xl border-l-4 border text-sm font-medium transition-all duration-150 ";
-          if (chosen === null) {
-            cls += "border-l-transparent border-edge bg-white text-ink hover:border-l-cobalt hover:bg-frost hover:border-edge cursor-pointer";
-          } else if (opt === current.item.definition) {
-            cls += "border-l-emerald-500 border-emerald-200 bg-emerald-50 text-emerald-800";
-          } else if (opt === chosen) {
-            cls += "border-l-crimson border-crimson/20 bg-crimson/5 text-crimson";
-          } else {
-            cls += "border-l-transparent border-edge bg-white text-dim opacity-40";
-          }
-          return (
-            <button key={i} className={cls} onClick={() => handleChoice(opt)}>
-              {opt}
-            </button>
-          );
+          let cls = "w-full text-left p-4 rounded-2xl border-2 text-sm font-bold transition-all duration-150 ";
+          if (chosen === null)
+            cls += "border-edge bg-white text-ink hover:border-cobalt hover:bg-frost cursor-pointer";
+          else if (opt === current.item.definition)
+            cls += "border-emerald-400 bg-emerald-50 text-emerald-800";
+          else if (opt === chosen)
+            cls += "border-crimson/40 bg-crimson/5 text-crimson";
+          else
+            cls += "border-edge bg-white text-dim opacity-40";
+          return <button key={i} className={cls} onClick={() => handleChoice(opt)}>{opt}</button>;
         })}
       </div>
-
-      {chosen !== null && (
-        <button
-          onClick={handleNext}
-          className="w-full py-3 rounded-xl bg-cobalt text-white text-sm font-semibold hover:bg-navy transition-colors"
-        >
-          {index + 1 < questions.length ? "Suivant →" : "Voir les résultats"}
-        </button>
-      )}
     </div>
   );
 }
