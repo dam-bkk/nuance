@@ -39,7 +39,7 @@ export default function LessonTabs({ items, allItems }: { items: VocabItem[]; al
         </div>
       </div>
 
-      <div className="max-w-4xl mx-auto px-6 py-8">
+      <div className="max-w-4xl mx-auto px-6 py-6">
         {active === "apercu"     && <Apercu items={items} />}
         {active === "flashcards" && <Flashcards items={items} />}
         {active === "qcm"        && <QCM items={items} allItems={allItems} />}
