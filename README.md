@@ -1,36 +1,68 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Nuance
 
-## Getting Started
+French language learning SaaS for DELF B2 / DALF C1 preparation.  
+Single student, private, deployed at **nuance.damien.asia**.
 
-First, run the development server:
+## Stack
+
+- **Framework:** Next.js 14 App Router, TypeScript (`output: 'standalone'`)
+- **Styling:** Tailwind CSS v3 with CSS variable theming (light + dark mode)
+- **Auth:** NextAuth v4 — Google OAuth, single whitelisted Gmail
+- **Sync:** `/api/sync` endpoint + Docker volume `/app/data` for cross-device progress
+- **Content:** Markdown files in `content/` parsed by `lib/parse-*.ts`
+
+## Modules
+
+- **Vocabulaire** — flashcards, QCM, synonymes, glisser-déposer, textes à trous, définitions
+- **Grammaire** — multiple-choice grammar exercises by category
+- **Examens** — reading comprehension (CE) with VFND + QCM questions
+- **Tableau de bord** — activity calendar, session progress grid
+
+## Local dev
 
 ```bash
+npm install
+cp .env.local.example .env.local   # fill in OAuth credentials
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Environment variables
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=
+NEXTAUTH_SECRET=          # openssl rand -base64 32
+NEXTAUTH_URL=https://nuance.damien.asia
+NUANCE_ALLOWED_EMAIL=     # the student's Gmail address
+```
 
-## Learn More
+For local dev also add `http://localhost:3000/api/auth/callback/google` as an authorized redirect URI in Google Cloud Console.
 
-To learn more about Next.js, take a look at the following resources:
+## Docker deployment
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+docker build -t nuance:latest .
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+docker run -d \
+  --name nuance \
+  -p 3000:3000 \
+  -v nuance-data:/app/data \
+  -e GOOGLE_CLIENT_ID=... \
+  -e GOOGLE_CLIENT_SECRET=... \
+  -e NEXTAUTH_SECRET=... \
+  -e NEXTAUTH_URL=https://nuance.damien.asia \
+  -e NUANCE_ALLOWED_EMAIL=... \
+  nuance:latest
+```
 
-## Deploy on Vercel
+The `nuance-data` volume persists cross-device sync data (`nuance-sync.json`) across container rebuilds.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Deploy flow
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```
+git push → VM git pull → docker build → docker run
+```
+
+Never `docker cp` code. Fix locally, push, rebuild.

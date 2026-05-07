@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Nunito } from "next/font/google";
 import "./globals.css";
 import SyncProvider from "@/components/SyncProvider";
+import AuthProvider from "@/components/AuthProvider";
 
 const nunito = Nunito({
   subsets: ["latin"],
@@ -22,8 +23,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <script dangerouslySetInnerHTML={{ __html: `(function(){try{if(localStorage.getItem('nuance-theme')==='dark')document.documentElement.classList.add('dark')}catch(e){}})()` }} />
       </head>
       <body className="font-sans antialiased">
-        <SyncProvider />
-        {children}
+        <AuthProvider>
+          <SyncProvider />
+          {children}
+        </AuthProvider>
       </body>
     </html>
   );
