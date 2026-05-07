@@ -5,6 +5,8 @@ import type { VocabItem } from "@/lib/types";
 import Apercu from "./exercises/Apercu";
 import Flashcards from "./exercises/Flashcards";
 import QCM from "./exercises/QCM";
+import DefMot from "./exercises/DefMot";
+import SynonymeQuiz from "./exercises/SynonymeQuiz";
 import GlisserDeposer from "./exercises/GlisserDeposer";
 import TexteATrous from "./exercises/TexteATrous";
 
@@ -12,6 +14,8 @@ const TABS = [
   { id: "apercu",      label: "Aperçu" },
   { id: "flashcards",  label: "Flashcards" },
   { id: "qcm",         label: "QCM" },
+  { id: "defmot",      label: "Déf → Mot" },
+  { id: "synonyme",    label: "Synonymes" },
   { id: "glisser",     label: "Match" },
   { id: "trous",       label: "Texte à trous" },
 ];
@@ -45,6 +49,8 @@ export default function LessonTabs({ items, allItems }: { items: VocabItem[]; al
         {active === "apercu"     && <Apercu items={items} />}
         {active === "flashcards" && <Flashcards items={items} />}
         {active === "qcm"        && <QCM items={items} allItems={allItems} />}
+        {active === "defmot"     && <DefMot items={items} allItems={allItems} />}
+        {active === "synonyme"   && <SynonymeQuiz items={items} allItems={allItems} />}
         {active === "glisser"    && <GlisserDeposer items={items} />}
         {active === "trous"      && <TexteATrous items={items} />}
       </div>
