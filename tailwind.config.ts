@@ -1,6 +1,7 @@
 import type { Config } from "tailwindcss";
 
 const config: Config = {
+  darkMode: "class",
   content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -21,15 +22,16 @@ const config: Config = {
         border: "var(--border)",
         input: "var(--input)",
         ring: "var(--ring)",
-        // Frello-inspired palette
-        pg:      "#EBF3FF",   // page background
-        ink:     "#0F1023",   // near-black
-        navy:    "#2A35C4",   // hover / dark blue
-        cobalt:  "#3B4EF5",   // primary Frello blue
-        crimson: "#E5193A",   // error / red
-        dim:     "#6B7280",   // muted text
-        edge:    "#E5E7EB",   // borders
-        frost:   "#EEF0FF",   // hover bg
+        // Semantic palette — CSS-variable driven (flips in dark mode)
+        pg:      "var(--pg)",      // page background
+        ink:     "var(--ink)",     // near-black text
+        navy:    "var(--navy)",    // hover / dark blue
+        cobalt:  "#3B4EF5",        // primary blue (same in both modes)
+        crimson: "#E5193A",        // error / red
+        dim:     "var(--dim)",     // muted text
+        edge:    "var(--edge)",    // borders
+        frost:   "var(--frost)",   // hover bg
+        surface: "var(--surface)", // card surface (white in light, dark in dark)
       },
       fontFamily: {
         sans: ["var(--font-sans)", "sans-serif"],

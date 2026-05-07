@@ -20,7 +20,7 @@ export default async function SessionPage({ params }: { params: Promise<{ sessio
   const allItems = getAllItems();
 
   return (
-    <div className="min-h-screen bg-pg">
+    <div className="min-h-screen bg-pg transition-colors duration-300">
       <AppHeader back={{ href: "/", label: "Accueil" }} section="Vocabulaire" item={`Session ${lesson.session}`} />
 
       {/* Hero card */}
@@ -49,7 +49,7 @@ export default async function SessionPage({ params }: { params: Promise<{ sessio
                 <div className="text-white/60 text-xs font-bold mt-1">mots</div>
               </div>
               <div className="bg-white/15 rounded-2xl px-4 py-2">
-                <div className="text-white font-black text-lg leading-none">5</div>
+                <div className="text-white font-black text-lg leading-none">6</div>
                 <div className="text-white/60 text-xs font-bold mt-1">exercices</div>
               </div>
             </div>

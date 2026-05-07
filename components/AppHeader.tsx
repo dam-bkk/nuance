@@ -18,7 +18,7 @@ interface AppHeaderProps {
 
 export default function AppHeader({ back, section, item }: AppHeaderProps) {
   return (
-    <header className="bg-white border-b border-edge">
+    <header className="bg-surface border-b border-edge transition-colors duration-300">
       <div className="h-[3px] bg-gradient-to-r from-[#0028FF] to-[#FF0000]" />
       <div className="max-w-4xl mx-auto px-6 py-3 flex items-center gap-2 min-w-0">
         {back ? (

@@ -47,7 +47,7 @@ function RowCard({ lesson, colorIndex, pct }: { lesson: Lesson; colorIndex: numb
   return (
     <Link
       href={`/s/${lesson.session}`}
-      className="flex items-center gap-4 bg-white rounded-2xl px-5 py-4 hover:shadow-md hover:-translate-y-px transition-all duration-200 group"
+      className="flex items-center gap-4 bg-surface rounded-2xl px-5 py-4 hover:shadow-md hover:-translate-y-px transition-all duration-200 group"
     >
       <div
         className="w-10 h-10 rounded-xl flex-shrink-0 opacity-70"
@@ -81,7 +81,7 @@ function GridCard({ lesson, colorIndex, pct }: { lesson: Lesson; colorIndex: num
   return (
     <Link
       href={`/s/${lesson.session}`}
-      className="block bg-white rounded-3xl p-5 relative overflow-hidden hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200"
+      className="block bg-surface rounded-3xl p-5 relative overflow-hidden hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200"
     >
       <div
         className="absolute -top-6 -right-6 w-24 h-24 opacity-60"
@@ -141,7 +141,7 @@ export default function SessionGrid({ lessons }: { lessons: Lesson[] }) {
                   ? f === "B2" ? "bg-emerald-500 text-white"
                     : f === "C1" ? "bg-cobalt text-white"
                     : "bg-ink text-white"
-                  : "bg-white text-dim hover:text-ink border border-edge"
+                  : "bg-surface text-dim hover:text-ink border border-edge"
               }`}
             >{f}</button>
           ))}
@@ -149,7 +149,7 @@ export default function SessionGrid({ lessons }: { lessons: Lesson[] }) {
         </div>
 
         {/* Layout toggle */}
-        <div className="flex items-center bg-white rounded-xl border border-edge p-1 gap-1">
+        <div className="flex items-center bg-surface rounded-xl border border-edge p-1 gap-1">
           <button
             onClick={() => setLayout("rows")}
             title="Vue liste"

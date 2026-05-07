@@ -55,7 +55,7 @@ export default function ActivityCalendar() {
   const classDaysDone = classDaysThisMonth.filter(d => activeDays.has(d)).length;
 
   return (
-    <div className="bg-white rounded-3xl p-5">
+    <div className="bg-surface rounded-3xl p-5 transition-colors duration-300">
       <div className="flex items-center justify-between mb-4">
         <div>
           <p className="text-xs font-black uppercase tracking-widest text-dim">Activité</p>

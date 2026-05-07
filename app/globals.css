@@ -4,6 +4,7 @@
 
 @layer base {
   :root {
+    /* shadcn-style semantic tokens */
     --background: #EBF3FF;
     --foreground: #0F1023;
     --card: #FFFFFF;
@@ -24,11 +25,46 @@
     --input: #E5E7EB;
     --ring: #3B4EF5;
     --radius: 1rem;
+
+    /* Custom palette — light mode */
+    --pg:      #EBF3FF;
+    --ink:     #0F1023;
+    --navy:    #2A35C4;
+    --dim:     #6B7280;
+    --edge:    #E5E7EB;
+    --frost:   #EEF0FF;
+    --surface: #FFFFFF;
   }
-  * { border-color: #E5E7EB; }
+
+  html.dark {
+    --background: #0D1225;
+    --foreground: #E8ECFF;
+    --card: #1B2035;
+    --card-foreground: #E8ECFF;
+    --popover: #1B2035;
+    --popover-foreground: #E8ECFF;
+    --secondary: #1E2440;
+    --secondary-foreground: #E8ECFF;
+    --muted: #1E2440;
+    --muted-foreground: #7A8099;
+    --border: #252B40;
+    --input: #252B40;
+
+    /* Custom palette — dark mode */
+    --pg:      #0D1225;
+    --ink:     #E8ECFF;
+    --navy:    #6B7EFF;
+    --dim:     #7A8099;
+    --edge:    #252B40;
+    --frost:   #1B2038;
+    --surface: #1B2035;
+  }
+
+  * { border-color: var(--edge); }
+
   body {
-    background-color: #EBF3FF;
-    color: #0F1023;
+    background-color: var(--pg);
+    color: var(--ink);
     font-family: var(--font-sans), sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
