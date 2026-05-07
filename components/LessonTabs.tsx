@@ -21,21 +21,23 @@ export default function LessonTabs({ items, allItems }: { items: VocabItem[]; al
 
   return (
     <div>
-      <div className="sticky top-0 z-10 bg-white border-b border-edge shadow-sm">
-        <div className="max-w-4xl mx-auto px-4 flex overflow-x-auto">
-          {TABS.map((tab) => (
-            <button
-              key={tab.id}
-              onClick={() => setActive(tab.id)}
-              className={`px-5 py-4 text-sm font-extrabold whitespace-nowrap border-b-[3px] transition-colors ${
-                active === tab.id
-                  ? "border-cobalt text-cobalt"
-                  : "border-transparent text-dim hover:text-ink"
-              }`}
-            >
-              {tab.label}
-            </button>
-          ))}
+      <div className="sticky top-0 z-10 py-4 bg-pg">
+        <div className="max-w-4xl mx-auto px-6">
+          <div className="bg-white rounded-2xl p-1.5 flex overflow-x-auto gap-1 shadow-sm">
+            {TABS.map((tab) => (
+              <button
+                key={tab.id}
+                onClick={() => setActive(tab.id)}
+                className={`flex-1 px-4 py-2.5 text-sm font-extrabold whitespace-nowrap rounded-xl transition-all ${
+                  active === tab.id
+                    ? "bg-cobalt text-white shadow-sm"
+                    : "text-dim hover:text-ink hover:bg-pg"
+                }`}
+              >
+                {tab.label}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
 
