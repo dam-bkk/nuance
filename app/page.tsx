@@ -6,6 +6,7 @@ import { getAllExamens } from "@/lib/parse-examen";
 import AppHeader from "@/components/AppHeader";
 import ActivityCalendar from "@/components/ActivityCalendar";
 import WelcomeBar from "@/components/WelcomeBar";
+import Greeting from "@/components/Greeting";
 
 export default function Home() {
   const lessons = getAllLessons();
@@ -66,10 +67,7 @@ export default function Home() {
             <div className="absolute top-6 right-20 w-16 h-16 bg-white/5 rounded-full" />
             <div className="relative">
               <WelcomeBar />
-              <p className="text-white/60 text-xs font-extrabold uppercase tracking-widest mb-4">DELF B2 · DALF C1</p>
-              <h1 className="text-3xl sm:text-4xl font-black text-white leading-tight mb-3">
-                Maîtrisez le<br />français B2–C1
-              </h1>
+              <Greeting name="Guy" />
               <p className="text-white/70 text-sm font-semibold mb-8 max-w-sm">
                 Vocabulaire, grammaire, compréhension — entraînez-vous session par session.
               </p>
