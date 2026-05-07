@@ -21,6 +21,9 @@ COPY --from=builder --chown=app:app /app/.next/standalone ./
 COPY --from=builder --chown=app:app /app/.next/static ./.next/static
 COPY --from=builder --chown=app:app /app/content ./content
 
+RUN mkdir -p /app/data && chown app:app /app/data
+
 USER app
+VOLUME ["/app/data"]
 EXPOSE 3000
 CMD ["node", "server.js"]

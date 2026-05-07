@@ -20,7 +20,11 @@ export function markDone(sessionNum: number, id: ExerciseId) {
   if (!s.sessions) s.sessions = {};
   const k = String(sessionNum);
   if (!s.sessions[k]) s.sessions[k] = [];
-  if (!s.sessions[k].includes(id)) { s.sessions[k].push(id); save(s); }
+  if (!s.sessions[k].includes(id)) {
+    s.sessions[k].push(id);
+    save(s);
+    import("@/lib/sync").then(m => m.pushSync()).catch(() => {});
+  }
 }
 
 export function getAllPct(): Record<number, number> {

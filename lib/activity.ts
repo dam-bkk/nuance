@@ -20,7 +20,11 @@ export function recordPractice() {
   const s = load();
   if (!s.dates) s.dates = [];
   const t = today();
-  if (!s.dates.includes(t)) { s.dates.push(t); save(s); }
+  if (!s.dates.includes(t)) {
+    s.dates.push(t);
+    save(s);
+    import("@/lib/sync").then(m => m.pushSync()).catch(() => {});
+  }
 }
 
 export function getActivityDates(): string[] {
