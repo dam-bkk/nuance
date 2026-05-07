@@ -69,7 +69,7 @@ export default function Home() {
               <WelcomeBar />
               <Greeting name="Guy" />
               <p className="text-white/70 text-sm font-semibold mb-8 max-w-sm">
-                Vocabulaire, grammaire, compréhension — entraînez-vous session par session.
+                Vocabulaire, grammaire, compréhension — entraîne-toi session par session.
               </p>
               <div className="flex gap-3 flex-wrap">
                 <div className="bg-white/15 rounded-2xl px-5 py-3">

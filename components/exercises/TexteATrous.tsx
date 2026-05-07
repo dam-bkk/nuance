@@ -106,7 +106,7 @@ export default function TexteATrous({ items, onDone }: { items: VocabItem[]; onD
 
       {/* Blue sentence card */}
       <div className="bg-cobalt rounded-4xl p-6 sm:p-10">
-        <p className="text-xs font-extrabold text-white/60 uppercase tracking-widest mb-4">Complétez la phrase</p>
+        <p className="text-xs font-extrabold text-white/60 uppercase tracking-widest mb-4">Complète la phrase</p>
         <p className="text-lg font-bold text-white leading-relaxed">
           {current.before}
           <span className="inline-block bg-white/20 rounded-lg px-3 mx-1 min-w-[5rem] text-center text-white/40">_____</span>

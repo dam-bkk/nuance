@@ -28,7 +28,7 @@ export default function GrammairePage() {
             <p className="text-white/60 text-xs font-extrabold uppercase tracking-widest mb-2">B2 · C1</p>
             <h1 className="text-2xl font-black text-white mb-2">Grammaire</h1>
             <p className="text-white/70 text-sm font-semibold">
-              Textes à trous — choisissez la forme grammaticale correcte.
+              Textes à trous — choisis la forme grammaticale correcte.
             </p>
             <div className="flex gap-3 mt-5">
               <div className="bg-white/15 rounded-2xl px-4 py-2">
