@@ -4,7 +4,7 @@
 
 @layer base {
   :root {
-    --background: #F0F2FF;
+    --background: #EBF3FF;
     --foreground: #0F1023;
     --card: #FFFFFF;
     --card-foreground: #0F1023;
@@ -27,7 +27,7 @@
   }
   * { border-color: #E5E7EB; }
   body {
-    background-color: #F0F2FF;
+    background-color: #EBF3FF;
     color: #0F1023;
     font-family: var(--font-sans), sans-serif;
     -webkit-font-smoothing: antialiased;

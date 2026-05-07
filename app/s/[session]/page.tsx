@@ -29,8 +29,7 @@ export default async function SessionPage({ params }: { params: Promise<{ sessio
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-dim group-hover:text-cobalt transition-colors">
               <path d="M19 12H5M12 19l-7-7 7-7"/>
             </svg>
-            <img src="/icon.svg" alt="" className="h-9 w-9 rounded-xl" />
-            <span className="text-base font-black text-ink tracking-tight">LexiC1</span>
+            <img src="/nuance-logo.svg" alt="Nuance" className="h-6" />
           </Link>
           <div className="h-5 w-px bg-edge" />
           <span className="text-xs font-extrabold text-cobalt uppercase tracking-widest">Session {lesson.session}</span>

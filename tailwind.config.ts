@@ -22,7 +22,7 @@ const config: Config = {
         input: "var(--input)",
         ring: "var(--ring)",
         // Frello-inspired palette
-        pg:      "#F0F2FF",   // page background
+        pg:      "#EBF3FF",   // page background
         ink:     "#0F1023",   // near-black
         navy:    "#2A35C4",   // hover / dark blue
         cobalt:  "#3B4EF5",   // primary Frello blue

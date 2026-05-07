@@ -9,8 +9,8 @@ const nunito = Nunito({
 });
 
 export const metadata: Metadata = {
-  title: "LexiC1 — Préparation DELF C1",
-  description: "Entraîneur de vocabulaire pour le DELF C1",
+  title: "Nuance — Préparation DELF B2 · DALF C1",
+  description: "Préparation au DELF B2 et DALF C1 : vocabulaire, grammaire, compréhension.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

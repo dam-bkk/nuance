@@ -1,19 +1,23 @@
+import Link from "next/link";
 import { getAllLessons } from "@/lib/parse-lesson";
 import SessionGrid from "@/components/SessionGrid";
+import { getAllGrammaire } from "@/lib/parse-grammaire";
+import { getAllExamens } from "@/lib/parse-examen";
 
 export default function Home() {
   const lessons = getAllLessons();
   const totalWords = lessons.reduce((a, l) => a + l.items.length, 0);
   const b2Count = lessons.filter((l) => l.level === "B2").length;
   const c1Count = lessons.filter((l) => l.level === "C1").length;
+  const gramExos = getAllGrammaire();
+  const examens = getAllExamens();
 
   return (
     <div className="min-h-screen bg-pg">
       <header className="bg-white border-b border-edge">
         <div className="h-[3px] bg-gradient-to-r from-[#0028FF] to-[#FF0000]" />
         <div className="max-w-4xl mx-auto px-6 py-3 flex items-center gap-3">
-          <img src="/icon.svg" alt="" className="h-10 w-10 rounded-xl" />
-          <span className="text-xl font-black text-ink tracking-tight">LexiC1</span>
+          <img src="/nuance-logo.svg" alt="Nuance" className="h-7" />
         </div>
       </header>
 
@@ -56,6 +60,44 @@ export default function Home() {
           </div>
         </div>
 
+        {/* Module nav */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-10">
+          <Link href="#sessions" className="bg-white rounded-3xl p-5 hover:shadow-lg hover:-translate-y-0.5 transition-all flex items-start gap-4">
+            <div className="w-10 h-10 rounded-2xl bg-cobalt/10 flex items-center justify-center flex-shrink-0">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3B4EF5" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="4" y="5" width="16" height="14" rx="2"/><path d="M8 5V3M16 5V3M4 10h16"/>
+              </svg>
+            </div>
+            <div>
+              <p className="font-black text-ink text-sm">Vocabulaire</p>
+              <p className="text-xs text-dim font-semibold mt-0.5">{lessons.length} sessions · {totalWords} mots</p>
+            </div>
+          </Link>
+          <Link href="/grammaire" className="bg-white rounded-3xl p-5 hover:shadow-lg hover:-translate-y-0.5 transition-all flex items-start gap-4">
+            <div className="w-10 h-10 rounded-2xl bg-cobalt/10 flex items-center justify-center flex-shrink-0">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3B4EF5" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M4 7h16M4 12h10M4 17h6"/>
+              </svg>
+            </div>
+            <div>
+              <p className="font-black text-ink text-sm">Grammaire</p>
+              <p className="text-xs text-dim font-semibold mt-0.5">{gramExos.length} exercices QCM</p>
+            </div>
+          </Link>
+          <Link href="/examens" className="bg-white rounded-3xl p-5 hover:shadow-lg hover:-translate-y-0.5 transition-all flex items-start gap-4">
+            <div className="w-10 h-10 rounded-2xl bg-cobalt/10 flex items-center justify-center flex-shrink-0">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3B4EF5" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M9 12l2 2 4-4M7 4H4a1 1 0 00-1 1v14a1 1 0 001 1h16a1 1 0 001-1V5a1 1 0 00-1-1h-3M9 4h6a1 1 0 010 2H9a1 1 0 010-2z"/>
+              </svg>
+            </div>
+            <div>
+              <p className="font-black text-ink text-sm">Examens</p>
+              <p className="text-xs text-dim font-semibold mt-0.5">{examens.length} simulations DALF C1</p>
+            </div>
+          </Link>
+        </div>
+
+        <div id="sessions">
         {lessons.length === 0 ? (
           <div className="text-center py-16 text-dim">
             <p className="text-lg font-bold">Aucune session trouvée.</p>
@@ -64,6 +106,7 @@ export default function Home() {
         ) : (
           <SessionGrid lessons={lessons} />
         )}
+        </div>
       </main>
     </div>
   );
