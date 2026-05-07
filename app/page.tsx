@@ -18,79 +18,82 @@ export default function Home() {
       <AppHeader />
 
       <main className="max-w-4xl mx-auto px-6 py-10">
-        {/* Hero card */}
-        <div className="bg-cobalt rounded-4xl p-10 mb-10 relative overflow-hidden">
-          <div className="absolute -top-12 -right-12 w-48 h-48 bg-white/5 rounded-full" />
-          <div className="absolute -bottom-10 left-16 w-36 h-36 bg-white/5 rounded-full" />
-          <div className="absolute top-6 right-20 w-16 h-16 bg-white/5 rounded-full" />
-          <div className="relative">
-            <p className="text-white/60 text-xs font-extrabold uppercase tracking-widest mb-4">DELF B2 · DALF C1 · Vocabulaire</p>
-            <h1 className="text-3xl sm:text-4xl font-black text-white leading-tight mb-3">
-              Maîtrisez le<br />vocabulaire B2–C1
-            </h1>
-            <p className="text-white/70 text-sm font-semibold mb-8 max-w-sm">
-              Flashcards, QCM, exercices interactifs — entraînez-vous session par session.
-            </p>
-            <div className="flex gap-3 flex-wrap">
-              <div className="bg-white/15 rounded-2xl px-5 py-3">
-                <div className="text-white font-black text-xl leading-none">{lessons.length}</div>
-                <div className="text-white/60 text-xs font-bold mt-1">sessions</div>
+        {/* Hero + module nav side by side */}
+        <div className="flex flex-col sm:flex-row gap-4 mb-10 items-stretch">
+          {/* Left: module nav 33% */}
+          <div className="flex flex-col gap-3 sm:w-1/3">
+            <Link href="#sessions" className="bg-white rounded-3xl p-5 hover:shadow-lg hover:-translate-y-0.5 transition-all flex items-center gap-3 flex-1">
+              <div className="w-9 h-9 rounded-xl bg-cobalt/10 flex items-center justify-center flex-shrink-0">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3B4EF5" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="4" y="5" width="16" height="14" rx="2"/><path d="M8 5V3M16 5V3M4 10h16"/>
+                </svg>
               </div>
-              <div className="bg-white/15 rounded-2xl px-5 py-3">
-                <div className="text-white font-black text-xl leading-none">{totalWords}</div>
-                <div className="text-white/60 text-xs font-bold mt-1">mots</div>
+              <div>
+                <p className="font-black text-ink text-sm">Vocabulaire</p>
+                <p className="text-xs text-dim font-semibold">{lessons.length} sessions · {totalWords} mots</p>
               </div>
-              {b2Count > 0 && (
-                <div className="bg-emerald-500/30 rounded-2xl px-5 py-3">
-                  <div className="text-white font-black text-xl leading-none">{b2Count}</div>
-                  <div className="text-white/60 text-xs font-bold mt-1">B2</div>
-                </div>
-              )}
-              {c1Count > 0 && (
+            </Link>
+            <Link href="/grammaire" className="bg-white rounded-3xl p-5 hover:shadow-lg hover:-translate-y-0.5 transition-all flex items-center gap-3 flex-1">
+              <div className="w-9 h-9 rounded-xl bg-cobalt/10 flex items-center justify-center flex-shrink-0">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3B4EF5" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M4 7h16M4 12h10M4 17h6"/>
+                </svg>
+              </div>
+              <div>
+                <p className="font-black text-ink text-sm">Grammaire</p>
+                <p className="text-xs text-dim font-semibold">{gramExos.length} exercices QCM</p>
+              </div>
+            </Link>
+            <Link href="/examens" className="bg-white rounded-3xl p-5 hover:shadow-lg hover:-translate-y-0.5 transition-all flex items-center gap-3 flex-1">
+              <div className="w-9 h-9 rounded-xl bg-cobalt/10 flex items-center justify-center flex-shrink-0">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3B4EF5" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M9 12l2 2 4-4M7 4H4a1 1 0 00-1 1v14a1 1 0 001 1h16a1 1 0 001-1V5a1 1 0 00-1-1h-3M9 4h6a1 1 0 010 2H9a1 1 0 010-2z"/>
+                </svg>
+              </div>
+              <div>
+                <p className="font-black text-ink text-sm">Examens</p>
+                <p className="text-xs text-dim font-semibold">{examens.length} simulations DALF C1</p>
+              </div>
+            </Link>
+          </div>
+
+          {/* Right: hero 66% */}
+          <div className="bg-cobalt rounded-4xl p-8 relative overflow-hidden sm:w-2/3">
+            <div className="absolute -top-12 -right-12 w-48 h-48 bg-white/5 rounded-full" />
+            <div className="absolute -bottom-10 left-16 w-36 h-36 bg-white/5 rounded-full" />
+            <div className="absolute top-6 right-20 w-16 h-16 bg-white/5 rounded-full" />
+            <div className="relative">
+              <p className="text-white/60 text-xs font-extrabold uppercase tracking-widest mb-4">DELF B2 · DALF C1</p>
+              <h1 className="text-3xl sm:text-4xl font-black text-white leading-tight mb-3">
+                Maîtrisez le<br />français B2–C1
+              </h1>
+              <p className="text-white/70 text-sm font-semibold mb-8 max-w-sm">
+                Vocabulaire, grammaire, compréhension — entraînez-vous session par session.
+              </p>
+              <div className="flex gap-3 flex-wrap">
                 <div className="bg-white/15 rounded-2xl px-5 py-3">
-                  <div className="text-white font-black text-xl leading-none">{c1Count}</div>
-                  <div className="text-white/60 text-xs font-bold mt-1">C1</div>
+                  <div className="text-white font-black text-xl leading-none">{lessons.length}</div>
+                  <div className="text-white/60 text-xs font-bold mt-1">sessions</div>
                 </div>
-              )}
+                <div className="bg-white/15 rounded-2xl px-5 py-3">
+                  <div className="text-white font-black text-xl leading-none">{totalWords}</div>
+                  <div className="text-white/60 text-xs font-bold mt-1">mots</div>
+                </div>
+                {b2Count > 0 && (
+                  <div className="bg-emerald-500/30 rounded-2xl px-5 py-3">
+                    <div className="text-white font-black text-xl leading-none">{b2Count}</div>
+                    <div className="text-white/60 text-xs font-bold mt-1">B2</div>
+                  </div>
+                )}
+                {c1Count > 0 && (
+                  <div className="bg-white/15 rounded-2xl px-5 py-3">
+                    <div className="text-white font-black text-xl leading-none">{c1Count}</div>
+                    <div className="text-white/60 text-xs font-bold mt-1">C1</div>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
-        </div>
-
-        {/* Module nav */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-10">
-          <Link href="#sessions" className="bg-white rounded-3xl p-5 hover:shadow-lg hover:-translate-y-0.5 transition-all flex items-start gap-4">
-            <div className="w-10 h-10 rounded-2xl bg-cobalt/10 flex items-center justify-center flex-shrink-0">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3B4EF5" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <rect x="4" y="5" width="16" height="14" rx="2"/><path d="M8 5V3M16 5V3M4 10h16"/>
-              </svg>
-            </div>
-            <div>
-              <p className="font-black text-ink text-sm">Vocabulaire</p>
-              <p className="text-xs text-dim font-semibold mt-0.5">{lessons.length} sessions · {totalWords} mots</p>
-            </div>
-          </Link>
-          <Link href="/grammaire" className="bg-white rounded-3xl p-5 hover:shadow-lg hover:-translate-y-0.5 transition-all flex items-start gap-4">
-            <div className="w-10 h-10 rounded-2xl bg-cobalt/10 flex items-center justify-center flex-shrink-0">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3B4EF5" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M4 7h16M4 12h10M4 17h6"/>
-              </svg>
-            </div>
-            <div>
-              <p className="font-black text-ink text-sm">Grammaire</p>
-              <p className="text-xs text-dim font-semibold mt-0.5">{gramExos.length} exercices QCM</p>
-            </div>
-          </Link>
-          <Link href="/examens" className="bg-white rounded-3xl p-5 hover:shadow-lg hover:-translate-y-0.5 transition-all flex items-start gap-4">
-            <div className="w-10 h-10 rounded-2xl bg-cobalt/10 flex items-center justify-center flex-shrink-0">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3B4EF5" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M9 12l2 2 4-4M7 4H4a1 1 0 00-1 1v14a1 1 0 001 1h16a1 1 0 001-1V5a1 1 0 00-1-1h-3M9 4h6a1 1 0 010 2H9a1 1 0 010-2z"/>
-              </svg>
-            </div>
-            <div>
-              <p className="font-black text-ink text-sm">Examens</p>
-              <p className="text-xs text-dim font-semibold mt-0.5">{examens.length} simulations DALF C1</p>
-            </div>
-          </Link>
         </div>
 
         <div id="sessions">
