@@ -25,7 +25,10 @@ export default async function SessionPage({ params }: { params: Promise<{ sessio
       <header className="bg-white border-b border-edge">
         <div className="h-[3px] bg-gradient-to-r from-[#0028FF] to-[#FF0000]" />
         <div className="max-w-4xl mx-auto px-6 py-3 flex items-center gap-3">
-          <Link href="/" className="flex items-center gap-2 flex-shrink-0">
+          <Link href="/" className="flex items-center gap-2 flex-shrink-0 group">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-dim group-hover:text-cobalt transition-colors">
+              <path d="M19 12H5M12 19l-7-7 7-7"/>
+            </svg>
             <img src="/icon.svg" alt="" className="h-9 w-9 rounded-xl" />
             <span className="text-base font-black text-ink tracking-tight">LexiC1</span>
           </Link>
