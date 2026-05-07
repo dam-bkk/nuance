@@ -13,9 +13,13 @@ export type VocabItem = {
   piege: string | null;
 };
 
+export type Level = 'B2' | 'C1';
+
 export type Lesson = {
   session: number;
   date: string;
   theme: string;
+  level: Level;
+  category: string;
   items: VocabItem[];
 };

@@ -2,6 +2,8 @@
 session: 2
 date: 2026-05-07
 theme: L'expression de la pensée critique
+level: C1
+category: Expression et pensée
 ---
 
 # Semaine 1 — L'expression de la pensée critique

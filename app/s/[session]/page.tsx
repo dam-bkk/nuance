@@ -44,9 +44,16 @@ export default async function SessionPage({ params }: { params: Promise<{ sessio
           <div className="absolute -bottom-8 left-14 w-32 h-32 bg-white/5 rounded-full" />
           <div className="absolute top-4 right-24 w-14 h-14 bg-white/5 rounded-full" />
           <div className="relative">
-            <p className="text-white/60 text-xs font-extrabold uppercase tracking-widest mb-2">
-              Session {lesson.session} · {formatDate(lesson.date)}
-            </p>
+            <div className="flex items-center gap-2 mb-2">
+              <p className="text-white/60 text-xs font-extrabold uppercase tracking-widest">
+                Session {lesson.session} · {formatDate(lesson.date)}
+              </p>
+              <span className={`text-[10px] font-black px-2 py-0.5 rounded-full ${
+                lesson.level === "B2" ? "bg-emerald-400/30 text-emerald-200" : "bg-white/20 text-white/80"
+              }`}>
+                {lesson.level}
+              </span>
+            </div>
             <h1 className="text-2xl sm:text-3xl font-black text-white leading-tight mb-5">
               {lesson.theme}
             </h1>

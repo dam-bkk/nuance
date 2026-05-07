@@ -2,6 +2,8 @@
 session: 1
 date: 2026-05-07
 theme: IA, souveraineté et culture
+level: C1
+category: Progrès scientifique
 ---
 
 # Semaine 2 — IA, souveraineté et culture

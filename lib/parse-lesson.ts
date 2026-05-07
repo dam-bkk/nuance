@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
-import type { Lesson, VocabItem, Registre } from './types';
+import type { Lesson, VocabItem, Registre, Level } from './types';
 
 const CONTENT_DIR = path.join(process.cwd(), 'content');
 
@@ -89,6 +89,8 @@ function parseLessonContent(content: string, data: Record<string, unknown>): Les
     session: Number(data.session),
     date: String(data.date),
     theme: String(data.theme),
+    level: (String(data.level || 'C1')) as Level,
+    category: String(data.category || 'Général'),
     items,
   };
 }
