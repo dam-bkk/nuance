@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
-import Link from "next/link";
 import { getGrammaire } from "@/lib/parse-grammaire";
 import GrammaireQCM from "@/components/GrammaireQCM";
+import AppHeader from "@/components/AppHeader";
 
 const LEVEL_STYLE: Record<string, string> = {
   B2: "bg-emerald-400/30 text-emerald-200",
@@ -15,17 +15,7 @@ export default async function GrammaireExoPage({ params }: { params: Promise<{ i
 
   return (
     <div className="min-h-screen bg-pg">
-      <header className="bg-white border-b border-edge">
-        <div className="h-[3px] bg-gradient-to-r from-[#0028FF] to-[#FF0000]" />
-        <div className="max-w-4xl mx-auto px-6 py-3 flex items-center gap-3">
-          <Link href="/grammaire" className="flex items-center gap-2 group">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-dim group-hover:text-cobalt transition-colors">
-              <path d="M19 12H5M12 19l-7-7 7-7"/>
-            </svg>
-            <span className="text-sm font-extrabold text-dim group-hover:text-ink transition-colors">Grammaire</span>
-          </Link>
-        </div>
-      </header>
+      <AppHeader back={{ href: "/grammaire", label: "Grammaire" }} section="Grammaire" item={exo.titre} />
 
       {/* Hero */}
       <div className="max-w-4xl mx-auto px-6 pt-8">

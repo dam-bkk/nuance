@@ -1,5 +1,6 @@
-import Link from "next/link";
 import { getAllGrammaire } from "@/lib/parse-grammaire";
+import AppHeader from "@/components/AppHeader";
+import Link from "next/link";
 
 const LEVEL_STYLE: Record<string, string> = {
   B2: "bg-emerald-100 text-emerald-700",
@@ -17,19 +18,7 @@ export default function GrammairePage() {
 
   return (
     <div className="min-h-screen bg-pg">
-      <header className="bg-white border-b border-edge">
-        <div className="h-[3px] bg-gradient-to-r from-[#0028FF] to-[#FF0000]" />
-        <div className="max-w-4xl mx-auto px-6 py-3 flex items-center gap-3">
-          <Link href="/" className="flex items-center gap-2 group">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-dim group-hover:text-cobalt transition-colors">
-              <path d="M19 12H5M12 19l-7-7 7-7"/>
-            </svg>
-            <img src="/nuance-logo.svg" alt="Nuance" className="h-6" />
-          </Link>
-          <div className="h-5 w-px bg-edge" />
-          <span className="text-xs font-extrabold text-cobalt uppercase tracking-widest">Grammaire</span>
-        </div>
-      </header>
+      <AppHeader back={{ href: "/", label: "Accueil" }} section="Grammaire" />
 
       <main className="max-w-4xl mx-auto px-6 py-10">
         {/* Hero */}

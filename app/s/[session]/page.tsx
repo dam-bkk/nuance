@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
-import Link from "next/link";
 import { getLesson, getAllItems } from "@/lib/parse-lesson";
 import LessonTabs from "@/components/LessonTabs";
+import AppHeader from "@/components/AppHeader";
 
 function formatDate(raw: string): string {
   const d = new Date(raw);
@@ -21,20 +21,7 @@ export default async function SessionPage({ params }: { params: Promise<{ sessio
 
   return (
     <div className="min-h-screen bg-pg">
-      {/* Nav */}
-      <header className="bg-white border-b border-edge">
-        <div className="h-[3px] bg-gradient-to-r from-[#0028FF] to-[#FF0000]" />
-        <div className="max-w-4xl mx-auto px-6 py-3 flex items-center gap-3">
-          <Link href="/" className="flex items-center gap-2 flex-shrink-0 group">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-dim group-hover:text-cobalt transition-colors">
-              <path d="M19 12H5M12 19l-7-7 7-7"/>
-            </svg>
-            <img src="/nuance-logo.svg" alt="Nuance" className="h-6" />
-          </Link>
-          <div className="h-5 w-px bg-edge" />
-          <span className="text-xs font-extrabold text-cobalt uppercase tracking-widest">Session {lesson.session}</span>
-        </div>
-      </header>
+      <AppHeader back={{ href: "/", label: "Accueil" }} section="Vocabulaire" item={`Session ${lesson.session}`} />
 
       {/* Hero card */}
       <div className="max-w-4xl mx-auto px-6 pt-8">

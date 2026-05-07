@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
-import Link from "next/link";
 import { getExamen } from "@/lib/parse-examen";
 import ExamenCE from "@/components/ExamenCE";
+import AppHeader from "@/components/AppHeader";
 
 const TYPE_STYLE: Record<string, string> = {
   CE: "bg-white/20 text-white",
@@ -15,17 +15,7 @@ export default async function ExamenPage({ params }: { params: Promise<{ id: str
 
   return (
     <div className="min-h-screen bg-pg">
-      <header className="bg-white border-b border-edge">
-        <div className="h-[3px] bg-gradient-to-r from-[#0028FF] to-[#FF0000]" />
-        <div className="max-w-4xl mx-auto px-6 py-3 flex items-center gap-3">
-          <Link href="/examens" className="flex items-center gap-2 group">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-dim group-hover:text-cobalt transition-colors">
-              <path d="M19 12H5M12 19l-7-7 7-7"/>
-            </svg>
-            <span className="text-sm font-extrabold text-dim group-hover:text-ink transition-colors">Examens</span>
-          </Link>
-        </div>
-      </header>
+      <AppHeader back={{ href: "/examens", label: "Examens" }} section="Examens" item={examen.titre} />
 
       {/* Hero */}
       <div className="max-w-4xl mx-auto px-6 pt-8">

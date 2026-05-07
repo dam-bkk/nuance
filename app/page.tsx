@@ -3,6 +3,7 @@ import { getAllLessons } from "@/lib/parse-lesson";
 import SessionGrid from "@/components/SessionGrid";
 import { getAllGrammaire } from "@/lib/parse-grammaire";
 import { getAllExamens } from "@/lib/parse-examen";
+import AppHeader from "@/components/AppHeader";
 
 export default function Home() {
   const lessons = getAllLessons();
@@ -14,12 +15,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-pg">
-      <header className="bg-white border-b border-edge">
-        <div className="h-[3px] bg-gradient-to-r from-[#0028FF] to-[#FF0000]" />
-        <div className="max-w-4xl mx-auto px-6 py-3 flex items-center gap-3">
-          <img src="/nuance-logo.svg" alt="Nuance" className="h-7" />
-        </div>
-      </header>
+      <AppHeader />
 
       <main className="max-w-4xl mx-auto px-6 py-10">
         {/* Hero card */}
