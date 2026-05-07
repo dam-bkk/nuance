@@ -60,7 +60,10 @@ function DroppableSyn({ id, synText, wordPlaced, verified, correct }: {
 }
 
 export default function GlisserDeposer({ items }: { items: VocabItem[] }) {
-  const eligible = useMemo(() => items.filter((item) => item.synonymes.length > 0), [items]);
+  const eligible = useMemo(
+    () => items.filter((item) => item.synonymes.length > 0).slice(0, 10),
+    [items]
+  );
 
   const wordCards: WordCard[] = useMemo(
     () => shuffle(eligible.map((item, i) => ({ id: `w-${i}`, word: item.word, itemIndex: i }))),

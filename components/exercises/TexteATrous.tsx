@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, useRef } from "react";
+import { useState, useMemo } from "react";
 import type { VocabItem } from "@/lib/types";
 import ScoreCircle from "@/components/ScoreCircle";
 
@@ -13,12 +13,20 @@ function blankSentence(sentence: string, word: string) {
   if (idx === -1) return null;
   return {
     before: sentence.slice(0, idx),
-    blank: sentence.slice(idx, idx + word.length),
     after: sentence.slice(idx + word.length),
   };
 }
 
-type Question = { item: VocabItem; sentence: string; answer: string };
+function shuffle<T>(arr: T[]): T[] {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+type Question = { item: VocabItem; before: string; after: string; choices: string[] };
 type Result = { item: VocabItem; correct: boolean; given: string };
 
 export default function TexteATrous({ items }: { items: VocabItem[] }) {
@@ -29,41 +37,35 @@ export default function TexteATrous({ items }: { items: VocabItem[] }) {
       if (!ex) continue;
       const b = blankSentence(ex, item.word);
       if (!b) continue;
-      qs.push({ item, sentence: ex, answer: b.blank });
+      const pool = items.filter((i) => i.word !== item.word);
+      const distractors = shuffle(pool).slice(0, 3).map((i) => i.word);
+      qs.push({ item, before: b.before, after: b.after, choices: shuffle([item.word, ...distractors]) });
     }
     return qs;
   }, [items]);
 
   const [index, setIndex] = useState(0);
-  const [input, setInput] = useState("");
-  const [submitted, setSubmitted] = useState<boolean | null>(null);
-  const [hint, setHint] = useState(false);
+  const [chosen, setChosen] = useState<string | null>(null);
   const [results, setResults] = useState<Result[]>([]);
   const [done, setDone] = useState(false);
-  const inputRef = useRef<HTMLInputElement>(null);
 
   if (questions.length === 0)
     return <p className="text-dim text-center py-12">Aucun exemple disponible pour cet exercice.</p>;
 
   const current = questions[index];
-  const parts = blankSentence(current.sentence, current.answer);
 
-  function handleSubmit() {
-    if (!input.trim()) return;
-    const correct = normalize(input.trim()) === normalize(current.answer);
-    setSubmitted(correct);
-    const newResults = [...results, { item: current.item, correct, given: input.trim() }];
-    if (index + 1 >= questions.length) { setResults(newResults); setDone(true); }
-    else {
-      setTimeout(() => {
-        setResults(newResults); setIndex(index + 1);
-        setInput(""); setSubmitted(null); setHint(false);
-        inputRef.current?.focus();
-      }, 1200);
-    }
+  function handleChoice(word: string) {
+    if (chosen !== null) return;
+    setChosen(word);
+    const correct = word === current.item.word;
+    const newResults = [...results, { item: current.item, correct, given: word }];
+    setTimeout(() => {
+      if (index + 1 >= questions.length) { setResults(newResults); setDone(true); }
+      else { setResults(newResults); setIndex(index + 1); setChosen(null); }
+    }, 1000);
   }
 
-  function restart() { setIndex(0); setInput(""); setSubmitted(null); setHint(false); setResults([]); setDone(false); }
+  function restart() { setIndex(0); setChosen(null); setResults([]); setDone(false); }
 
   if (done) {
     const score = results.filter((r) => r.correct).length;
@@ -107,48 +109,29 @@ export default function TexteATrous({ items }: { items: VocabItem[] }) {
 
       <div className="bg-white border-2 border-rim rounded-2xl p-8">
         <p className="text-ink text-base leading-relaxed font-medium">
-          {parts ? (
-            <>
-              {parts.before}
-              <span className="inline-block border-b-2 border-blue w-20 mx-1 align-bottom" />
-              {parts.after}
-            </>
-          ) : current.sentence}
+          {current.before}
+          <span className="inline-block border-b-2 border-cobalt w-20 mx-1 align-bottom" />
+          {current.after}
         </p>
-        {hint && <p className="mt-3 text-sm text-crimson italic">Indice : {current.item.traduction}</p>}
       </div>
 
-      <div className="space-y-3">
-        <input
-          ref={inputRef}
-          type="text"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          onKeyDown={(e) => { if (e.key === "Enter") handleSubmit(); }}
-          disabled={submitted !== null}
-          placeholder="Votre réponse…"
-          autoFocus
-          className={`w-full px-4 py-3 rounded-xl border text-sm font-medium outline-none transition-colors ${
-            submitted === true
-              ? "border-emerald-400 bg-emerald-50 text-emerald-800"
-              : submitted === false
-              ? "border-crimson bg-crimson/5 text-crimson"
-              : "border-rim bg-white text-ink focus:border-blue"
-          }`}
-        />
-        {submitted === false && (
-          <p className="text-xs font-medium text-emerald-600">Correct : «&nbsp;{current.answer}&nbsp;»</p>
-        )}
-        <div className="flex gap-3">
-          <button onClick={handleSubmit} disabled={submitted !== null || !input.trim()}
-            className="flex-1 py-2.5 rounded-xl bg-cobalt text-white text-sm font-semibold hover:bg-cobalt/90 transition-colors disabled:opacity-40">
-            Valider
-          </button>
-          <button onClick={() => setHint(true)} disabled={hint || submitted !== null}
-            className="px-4 py-2.5 rounded-xl border border-rim text-sm font-medium text-ink hover:border-crimson hover:text-crimson transition-colors disabled:opacity-40">
-            Indice
-          </button>
-        </div>
+      <div className="grid grid-cols-2 gap-3">
+        {current.choices.map((word) => {
+          let cls = "py-3 px-4 rounded-xl border text-sm font-semibold transition-colors text-center ";
+          if (chosen === null)
+            cls += "border-rim bg-white text-ink hover:border-cobalt hover:bg-frost cursor-pointer";
+          else if (word === current.item.word)
+            cls += "border-emerald-400 bg-emerald-50 text-emerald-800";
+          else if (word === chosen)
+            cls += "border-crimson bg-crimson/5 text-crimson";
+          else
+            cls += "border-rim bg-white text-dim opacity-40";
+          return (
+            <button key={word} className={cls} onClick={() => handleChoice(word)}>
+              {word}
+            </button>
+          );
+        })}
       </div>
     </div>
   );
