@@ -24,7 +24,7 @@ export default async function SessionPage({ params }: { params: Promise<{ sessio
       <AppHeader back={{ href: "/", label: "Accueil" }} section="Vocabulaire" item={`Session ${lesson.session}`} />
 
       {/* Hero card */}
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 pt-6 sm:pt-8">
+      <div className="max-w-[1250px] mx-auto px-4 sm:px-6 pt-6 sm:pt-8">
         <div className="bg-cobalt rounded-4xl p-5 sm:p-8 relative overflow-hidden">
           <div className="absolute -top-10 -right-10 w-44 h-44 bg-white/5 rounded-full" />
           <div className="absolute -bottom-8 left-14 w-32 h-32 bg-white/5 rounded-full" />

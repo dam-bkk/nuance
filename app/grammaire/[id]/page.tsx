@@ -18,7 +18,7 @@ export default async function GrammaireExoPage({ params }: { params: Promise<{ i
       <AppHeader back={{ href: "/grammaire", label: "Grammaire" }} section="Grammaire" item={exo.titre} />
 
       {/* Hero */}
-      <div className="max-w-4xl mx-auto px-6 pt-8">
+      <div className="max-w-[1250px] mx-auto px-6 pt-8">
         <div className="bg-cobalt rounded-4xl p-8 relative overflow-hidden">
           <div className="absolute -top-8 -right-8 w-36 h-36 bg-white/5 rounded-full" />
           <div className="relative">
@@ -41,7 +41,7 @@ export default async function GrammaireExoPage({ params }: { params: Promise<{ i
         </div>
       </div>
 
-      <div className="max-w-4xl mx-auto px-6 py-6">
+      <div className="max-w-[1250px] mx-auto px-6 py-6">
         <GrammaireQCM exo={exo} />
       </div>
     </div>

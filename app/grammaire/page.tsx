@@ -20,7 +20,7 @@ export default function GrammairePage() {
     <div className="min-h-screen bg-pg">
       <AppHeader back={{ href: "/", label: "Accueil" }} section="Grammaire" />
 
-      <main className="max-w-4xl mx-auto px-6 py-10">
+      <main className="max-w-[1250px] mx-auto px-6 py-10">
         {/* Hero */}
         <div className="bg-cobalt rounded-4xl p-8 mb-10 relative overflow-hidden">
           <div className="absolute -top-10 -right-10 w-44 h-44 bg-white/5 rounded-full" />

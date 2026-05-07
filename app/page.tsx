@@ -20,7 +20,7 @@ export default function Home() {
     <div className="min-h-screen bg-pg transition-colors duration-300">
       <AppHeader />
 
-      <main className="max-w-4xl mx-auto px-4 sm:px-6 py-6 sm:py-10">
+      <main className="max-w-[1250px] mx-auto px-4 sm:px-6 py-6 sm:py-10">
         {/* Hero + module nav side by side */}
         <div className="flex flex-col sm:flex-row gap-4 mb-10 items-stretch">
           {/* Left: module nav 33% */}

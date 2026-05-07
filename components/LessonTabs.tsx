@@ -37,7 +37,7 @@ export default function LessonTabs({ items, allItems, sessionNum }: {
   return (
     <div>
       <div className="sticky top-0 z-10 py-3 sm:py-4 bg-pg transition-colors duration-300">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6">
+        <div className="max-w-[1250px] mx-auto px-4 sm:px-6">
           <div className="bg-surface rounded-2xl p-1.5 flex overflow-x-auto gap-1 shadow-sm scrollbar-none">
             {TABS.map((tab) => (
               <button
@@ -56,7 +56,7 @@ export default function LessonTabs({ items, allItems, sessionNum }: {
         </div>
       </div>
 
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 py-4 sm:py-6">
+      <div className="max-w-[1250px] mx-auto px-4 sm:px-6 py-4 sm:py-6">
         {active === "apercu"     && <Apercu items={items} />}
         {active === "flashcards" && <Flashcards items={items} onDone={() => done("flashcards")} />}
         {active === "qcm"        && <QCM items={items} allItems={allItems} onDone={() => done("qcm")} />}
