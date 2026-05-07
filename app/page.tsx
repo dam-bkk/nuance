@@ -12,15 +12,9 @@ export default function Home() {
 
   return (
     <div className="min-h-screen">
-      <header className="bg-cobalt border-b border-cobalt/20 shadow-sm">
-        <div className="max-w-4xl mx-auto px-6 py-5 flex items-center gap-3">
-          <div className="w-8 h-8 rounded-lg bg-crimson flex items-center justify-center">
-            <span className="text-white font-bold text-sm">C1</span>
-          </div>
-          <div>
-            <h1 className="text-white font-bold text-lg tracking-tight leading-none">LexiC1</h1>
-            <p className="text-cobalt-200 text-xs mt-0.5" style={{ color: "#93AAFF" }}>Préparation DELF C1</p>
-          </div>
+      <header className="bg-white border-b border-rim">
+        <div className="max-w-4xl mx-auto px-6 py-3">
+          <img src="/logo.svg" alt="LexiC1" className="h-12 w-auto" />
         </div>
       </header>
 
