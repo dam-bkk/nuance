@@ -76,18 +76,23 @@ export default function ActivityCalendar() {
           if (!day) return <div key={i} />;
           const active = activeDays.has(day);
           const isToday = day === today;
+          const isClassDay = new Date(year, month - 1, day).getDay() === 4; // Thursday
           return (
-            <div
-              key={i}
-              className={`aspect-square rounded-lg flex items-center justify-center text-xs font-bold transition-colors ${
-                active
-                  ? "bg-cobalt text-white"
-                  : isToday
-                  ? "border-2 border-cobalt text-cobalt"
-                  : "text-dim"
-              }`}
-            >
-              {day}
+            <div key={i} className="relative aspect-square flex items-center justify-center">
+              <div
+                className={`w-full h-full rounded-lg flex items-center justify-center text-xs font-bold transition-colors ${
+                  active
+                    ? "bg-cobalt text-white"
+                    : isToday
+                    ? "border-2 border-cobalt text-cobalt"
+                    : "text-dim"
+                }`}
+              >
+                {day}
+              </div>
+              {isClassDay && !active && (
+                <span className="absolute bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-cobalt/40" />
+              )}
             </div>
           );
         })}
