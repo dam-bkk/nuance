@@ -1,6 +1,6 @@
 "use client";
 
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useState } from "react";
 import type { VocabItem } from "@/lib/types";
 import Apercu from "./exercises/Apercu";
 import Flashcards from "./exercises/Flashcards";
@@ -8,38 +8,54 @@ import QCM from "./exercises/QCM";
 import GlisserDeposer from "./exercises/GlisserDeposer";
 import TexteATrous from "./exercises/TexteATrous";
 
+const TABS = [
+  { value: "apercu",      label: "Aperçu" },
+  { value: "flashcards",  label: "Flashcards" },
+  { value: "qcm",         label: "QCM" },
+  { value: "glisser",     label: "Glisser-déposer" },
+  { value: "trous",       label: "Texte à trous" },
+] as const;
+
+type TabValue = typeof TABS[number]["value"];
+
 export default function LessonTabs({ items, allItems }: { items: VocabItem[]; allItems: VocabItem[] }) {
+  const [active, setActive] = useState<TabValue>("apercu");
+
   return (
-    <Tabs defaultValue="apercu" className="w-full">
-      <div className="sticky top-0 z-10 bg-white border-b border-rim shadow-sm">
+    <div className="w-full">
+      {/* Sticky tab bar */}
+      <div className="sticky top-0 z-10 bg-white shadow-[0_1px_0_#E0E4F5]">
         <div className="max-w-4xl mx-auto px-6">
-          <TabsList className="bg-transparent h-auto gap-0 rounded-none w-full justify-start border-0 p-0">
-            {[
-              { value: "apercu", label: "Aperçu" },
-              { value: "flashcards", label: "Flashcards" },
-              { value: "qcm", label: "QCM" },
-              { value: "glisser", label: "Glisser-déposer" },
-              { value: "trous", label: "Texte à trous" },
-            ].map((tab) => (
-              <TabsTrigger
-                key={tab.value}
-                value={tab.value}
-                className="rounded-none border-b-2 border-transparent data-[state=active]:border-crimson data-[state=active]:text-crimson data-[state=active]:bg-transparent bg-transparent text-dim hover:text-ink px-4 py-3 text-sm font-medium transition-colors"
-              >
-                {tab.label}
-              </TabsTrigger>
-            ))}
-          </TabsList>
+          <div className="flex gap-0 overflow-x-auto scrollbar-none">
+            {TABS.map((tab) => {
+              const isActive = tab.value === active;
+              return (
+                <button
+                  key={tab.value}
+                  onClick={() => setActive(tab.value)}
+                  className={[
+                    "relative flex-shrink-0 px-4 py-3.5 text-sm font-medium transition-colors duration-150 border-b-2 whitespace-nowrap",
+                    isActive
+                      ? "border-cobalt text-cobalt"
+                      : "border-transparent text-dim hover:text-ink hover:bg-frost",
+                  ].join(" ")}
+                >
+                  {tab.label}
+                </button>
+              );
+            })}
+          </div>
         </div>
       </div>
 
+      {/* Content */}
       <div className="max-w-4xl mx-auto px-6 py-8">
-        <TabsContent value="apercu" className="mt-0"><Apercu items={items} /></TabsContent>
-        <TabsContent value="flashcards" className="mt-0"><Flashcards items={items} /></TabsContent>
-        <TabsContent value="qcm" className="mt-0"><QCM items={items} allItems={allItems} /></TabsContent>
-        <TabsContent value="glisser" className="mt-0"><GlisserDeposer items={items} /></TabsContent>
-        <TabsContent value="trous" className="mt-0"><TexteATrous items={items} /></TabsContent>
+        {active === "apercu"     && <Apercu items={items} />}
+        {active === "flashcards" && <Flashcards items={items} />}
+        {active === "qcm"        && <QCM items={items} allItems={allItems} />}
+        {active === "glisser"    && <GlisserDeposer items={items} />}
+        {active === "trous"      && <TexteATrous items={items} />}
       </div>
-    </Tabs>
+    </div>
   );
 }

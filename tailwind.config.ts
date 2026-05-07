@@ -9,6 +9,7 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        // shadcn CSS var tokens — keep unchanged so shadcn components don't break
         background: "var(--background)",
         foreground: "var(--foreground)",
         card: { DEFAULT: "var(--card)", foreground: "var(--card-foreground)" },
@@ -21,13 +22,15 @@ const config: Config = {
         border: "var(--border)",
         input: "var(--input)",
         ring: "var(--ring)",
-        // design tokens — prefixed to avoid collisions with Tailwind defaults
-        frost: "#F0F4FF",    // page background
-        ink: "#0F1B3D",      // primary text
-        cobalt: "#1A3CC8",   // primary blue
-        crimson: "#C8192A",  // accent red
-        dim: "#5A6A99",      // muted text
-        rim: "#D0D9F5",      // borders
+        // Design tokens — new premium palette
+        pg:      "#F4F6FF", // page background, very slightly blue-tinted
+        ink:     "#080D26", // near-black for headings
+        navy:    "#0D1B6E", // dark indigo, matches logo
+        cobalt:  "#1835D8", // primary action blue
+        crimson: "#CC1628", // accent red
+        dim:     "#6B7698", // muted / secondary text
+        edge:    "#E0E4F5", // borders, subtle
+        frost:   "#EDF0FF", // hover backgrounds
       },
       fontFamily: {
         sans: ["var(--font-sans)", "sans-serif"],

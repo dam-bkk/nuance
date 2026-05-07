@@ -72,24 +72,28 @@ export default function TexteATrous({ items }: { items: VocabItem[] }) {
     const mistakes = results.filter((r) => !r.correct);
     return (
       <div className="max-w-lg mx-auto space-y-6">
-        <div className="bg-white border border-rim rounded-2xl p-8 flex flex-col items-center gap-3">
+        <div className="bg-white rounded-2xl p-8 shadow-[0_2px_12px_rgba(8,13,38,0.08)] flex flex-col items-center gap-3">
           <ScoreCircle score={score} total={questions.length} />
           <p className="text-sm font-medium text-dim">bonnes réponses</p>
         </div>
         {mistakes.length > 0 && (
           <div className="space-y-3">
-            <h3 className="text-xs font-semibold uppercase tracking-widest text-dim">À revoir</h3>
+            <h3 className="text-[10px] font-bold uppercase tracking-widest text-dim">À revoir</h3>
             {mistakes.map((r, i) => (
-              <div key={i} className="bg-white border border-rim rounded-xl p-4">
+              <div key={i} className="bg-white rounded-xl p-4 shadow-[0_2px_8px_rgba(8,13,38,0.06)]">
                 <p className="font-bold text-ink">{r.item.word}</p>
                 <p className="text-xs text-crimson mt-1">Répondu : «&nbsp;{r.given}&nbsp;»</p>
-                <p className="text-xs text-emerald-600 font-medium">Correct : «&nbsp;{r.item.word}&nbsp;»</p>
+                <p className="text-xs font-semibold mt-0.5" style={{ color: "#059669" }}>
+                  Correct : «&nbsp;{r.item.word}&nbsp;»
+                </p>
               </div>
             ))}
           </div>
         )}
-        <button onClick={restart}
-          className="w-full py-3 rounded-xl bg-cobalt text-white text-sm font-semibold hover:bg-cobalt/90 transition-colors">
+        <button
+          onClick={restart}
+          className="w-full py-3 rounded-xl bg-cobalt text-white text-sm font-semibold hover:bg-navy transition-colors"
+        >
           Recommencer
         </button>
       </div>
@@ -98,34 +102,42 @@ export default function TexteATrous({ items }: { items: VocabItem[] }) {
 
   return (
     <div className="max-w-lg mx-auto space-y-5">
+      {/* Progress dots */}
       <div className="flex items-center justify-between text-xs text-dim">
-        <span className="font-medium">{index + 1} / {questions.length}</span>
+        <span className="font-semibold">{index + 1} / {questions.length}</span>
         <div className="flex gap-1">
           {questions.map((_, i) => (
-            <div key={i} className={`h-1 w-5 rounded-full ${i < index ? "bg-cobalt" : i === index ? "bg-crimson" : "bg-rim"}`} />
+            <div
+              key={i}
+              className={`h-1.5 w-5 rounded-full transition-colors ${
+                i < index ? "bg-cobalt/40" : i === index ? "bg-cobalt" : "bg-edge"
+              }`}
+            />
           ))}
         </div>
       </div>
 
-      <div className="bg-white border-2 border-rim rounded-2xl p-8">
+      {/* Sentence with blank */}
+      <div className="bg-white rounded-2xl p-8 shadow-[0_2px_12px_rgba(8,13,38,0.08)]">
         <p className="text-ink text-base leading-relaxed font-medium">
           {current.before}
-          <span className="inline-block border-b-2 border-cobalt w-20 mx-1 align-bottom" />
+          <span className="inline-block border-b-[3px] border-cobalt w-24 mx-1 align-bottom" />
           {current.after}
         </p>
       </div>
 
+      {/* 2×2 choice grid */}
       <div className="grid grid-cols-2 gap-3">
         {current.choices.map((word) => {
-          let cls = "py-3 px-4 rounded-xl border text-sm font-semibold transition-colors text-center ";
+          let cls = "py-3.5 px-4 rounded-xl border text-sm font-semibold transition-all duration-150 text-center ";
           if (chosen === null)
-            cls += "border-rim bg-white text-ink hover:border-cobalt hover:bg-frost cursor-pointer";
+            cls += "border-edge bg-white text-ink hover:border-cobalt hover:bg-frost cursor-pointer";
           else if (word === current.item.word)
-            cls += "border-emerald-400 bg-emerald-50 text-emerald-800";
+            cls += "border-emerald-300 bg-emerald-50 text-emerald-800";
           else if (word === chosen)
-            cls += "border-crimson bg-crimson/5 text-crimson";
+            cls += "border-crimson/30 bg-crimson/5 text-crimson";
           else
-            cls += "border-rim bg-white text-dim opacity-40";
+            cls += "border-edge bg-white text-dim opacity-35";
           return (
             <button key={word} className={cls} onClick={() => handleChoice(word)}>
               {word}

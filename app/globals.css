@@ -4,32 +4,37 @@
 
 @layer base {
   :root {
-    --background: #F0F4FF;
-    --foreground: #0F1B3D;
+    --background: #F4F6FF;
+    --foreground: #080D26;
     --card: #FFFFFF;
-    --card-foreground: #0F1B3D;
+    --card-foreground: #080D26;
     --popover: #FFFFFF;
-    --popover-foreground: #0F1B3D;
-    --primary: #1A3CC8;
+    --popover-foreground: #080D26;
+    --primary: #1835D8;
     --primary-foreground: #FFFFFF;
-    --secondary: #E8EEFF;
-    --secondary-foreground: #0F1B3D;
-    --muted: #E8EEFF;
-    --muted-foreground: #5A6A99;
-    --accent: #C8192A;
+    --secondary: #EDF0FF;
+    --secondary-foreground: #080D26;
+    --muted: #EDF0FF;
+    --muted-foreground: #6B7698;
+    --accent: #CC1628;
     --accent-foreground: #FFFFFF;
-    --destructive: #C8192A;
+    --destructive: #CC1628;
     --destructive-foreground: #FFFFFF;
-    --border: #D0D9F5;
-    --input: #D0D9F5;
-    --ring: #1A3CC8;
+    --border: #E0E4F5;
+    --input: #E0E4F5;
+    --ring: #1835D8;
     --radius: 0.75rem;
   }
-  * { border-color: var(--border); }
+
+  * {
+    border-color: #E0E4F5;
+  }
+
   body {
-    background-color: #F0F4FF;
-    color: #0F1B3D;
+    background-color: #F4F6FF;
+    color: #080D26;
     font-family: var(--font-sans), sans-serif;
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 }

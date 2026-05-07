@@ -56,26 +56,28 @@ export default function QCM({ items, allItems }: { items: VocabItem[]; allItems:
     const mistakes = results.filter((r) => !r.correct);
     return (
       <div className="max-w-lg mx-auto space-y-6">
-        <div className="bg-white border border-rim rounded-2xl p-8 flex flex-col items-center gap-3">
+        <div className="bg-white rounded-2xl p-8 shadow-[0_2px_12px_rgba(8,13,38,0.08)] flex flex-col items-center gap-3">
           <ScoreCircle score={score} total={questions.length} />
           <p className="text-sm font-medium text-dim">bonnes réponses</p>
         </div>
 
         {mistakes.length > 0 && (
           <div className="space-y-3">
-            <h3 className="text-xs font-semibold uppercase tracking-widest text-dim">À revoir</h3>
+            <h3 className="text-[10px] font-bold uppercase tracking-widest text-dim">À revoir</h3>
             {mistakes.map((r, i) => (
-              <div key={i} className="bg-white border border-rim rounded-xl p-4 space-y-1.5">
+              <div key={i} className="bg-white rounded-xl p-4 shadow-[0_2px_8px_rgba(8,13,38,0.06)] space-y-1.5">
                 <p className="font-bold text-ink">{r.item.word}</p>
-                <p className="text-xs text-crimson line-through">{r.chosen}</p>
-                <p className="text-xs text-emerald-600 font-medium">{r.item.definition}</p>
+                <p className="text-xs text-crimson line-through opacity-70">{r.chosen}</p>
+                <p className="text-xs font-semibold" style={{ color: "#059669" }}>{r.item.definition}</p>
               </div>
             ))}
           </div>
         )}
 
-        <button onClick={restart}
-          className="w-full py-3 rounded-xl bg-cobalt text-white text-sm font-semibold hover:bg-cobalt/90 transition-colors">
+        <button
+          onClick={restart}
+          className="w-full py-3 rounded-xl bg-cobalt text-white text-sm font-semibold hover:bg-navy transition-colors"
+        >
           Recommencer
         </button>
       </div>
@@ -84,34 +86,53 @@ export default function QCM({ items, allItems }: { items: VocabItem[]; allItems:
 
   return (
     <div className="max-w-lg mx-auto space-y-5">
+      {/* Progress dots */}
       <div className="flex items-center justify-between text-xs text-dim">
-        <span className="font-medium">{index + 1} / {questions.length}</span>
+        <span className="font-semibold">{index + 1} / {questions.length}</span>
         <div className="flex gap-1">
           {questions.map((_, i) => (
-            <div key={i} className={`h-1 w-5 rounded-full ${i < index ? "bg-cobalt" : i === index ? "bg-crimson" : "bg-rim"}`} />
+            <div
+              key={i}
+              className={`h-1.5 w-5 rounded-full transition-colors ${
+                i < index ? "bg-cobalt/40" : i === index ? "bg-cobalt" : "bg-edge"
+              }`}
+            />
           ))}
         </div>
       </div>
 
-      <div className="bg-white border-2 border-rim rounded-2xl p-8 text-center">
-        <p className="text-2xl font-bold text-ink">{current.item.word}</p>
-        <p className="text-xs text-dim mt-1">{current.item.nature}</p>
+      {/* Word card */}
+      <div className="bg-white rounded-2xl p-8 shadow-[0_2px_12px_rgba(8,13,38,0.08)] text-center">
+        <p className="text-3xl font-bold text-ink tracking-tight">{current.item.word}</p>
+        <p className="text-xs font-medium text-dim uppercase tracking-widest mt-2">{current.item.nature}</p>
       </div>
 
+      {/* Options — left-border hover style */}
       <div className="space-y-2.5">
         {current.options.map((opt, i) => {
-          let cls = "w-full text-left p-4 rounded-xl border text-sm font-medium transition-colors ";
-          if (chosen === null) cls += "border-rim bg-white hover:border-cobalt hover:bg-frost text-ink";
-          else if (opt === current.item.definition) cls += "border-emerald-400 bg-emerald-50 text-emerald-800";
-          else if (opt === chosen) cls += "border-crimson bg-crimson/5 text-crimson";
-          else cls += "border-rim bg-white text-dim opacity-50";
-          return <button key={i} className={cls} onClick={() => handleChoice(opt)}>{opt}</button>;
+          let cls = "w-full text-left px-5 py-4 rounded-xl border-l-4 border text-sm font-medium transition-all duration-150 ";
+          if (chosen === null) {
+            cls += "border-l-transparent border-edge bg-white text-ink hover:border-l-cobalt hover:bg-frost hover:border-edge cursor-pointer";
+          } else if (opt === current.item.definition) {
+            cls += "border-l-emerald-500 border-emerald-200 bg-emerald-50 text-emerald-800";
+          } else if (opt === chosen) {
+            cls += "border-l-crimson border-crimson/20 bg-crimson/5 text-crimson";
+          } else {
+            cls += "border-l-transparent border-edge bg-white text-dim opacity-40";
+          }
+          return (
+            <button key={i} className={cls} onClick={() => handleChoice(opt)}>
+              {opt}
+            </button>
+          );
         })}
       </div>
 
       {chosen !== null && (
-        <button onClick={handleNext}
-          className="w-full py-3 rounded-xl bg-cobalt text-white text-sm font-semibold hover:bg-cobalt/90 transition-colors">
+        <button
+          onClick={handleNext}
+          className="w-full py-3 rounded-xl bg-cobalt text-white text-sm font-semibold hover:bg-navy transition-colors"
+        >
           {index + 1 < questions.length ? "Suivant →" : "Voir les résultats"}
         </button>
       )}

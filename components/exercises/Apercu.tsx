@@ -2,66 +2,80 @@
 
 import type { VocabItem } from "@/lib/types";
 
-const registreBadge: Record<string, string> = {
-  familier: "bg-amber-100 text-amber-700",
-  courant: "bg-cobalt/10 text-cobalt",
-  soutenu: "bg-purple-100 text-purple-700",
-  littéraire: "bg-emerald-100 text-emerald-700",
+const registreBadge: Record<string, { bg: string; text: string }> = {
+  familier:   { bg: "rgba(251,191,36,0.12)",  text: "#92400E" },
+  courant:    { bg: "rgba(24,53,216,0.08)",    text: "#1835D8" },
+  soutenu:    { bg: "rgba(109,40,217,0.09)",   text: "#5B21B6" },
+  littéraire: { bg: "rgba(5,150,105,0.09)",    text: "#065F46" },
 };
 
 function WordCard({ item }: { item: VocabItem }) {
+  const badge = registreBadge[item.registre] ?? { bg: "#E0E4F5", text: "#6B7698" };
+
   return (
-    <div className="bg-white border border-rim rounded-xl p-6 space-y-4">
+    <div className="bg-white rounded-2xl p-6 shadow-[0_2px_12px_rgba(8,13,38,0.08)] space-y-5">
+      {/* Header row */}
       <div className="flex items-start justify-between gap-4 flex-wrap">
         <div>
-          <h2 className="text-xl font-bold text-ink">{item.word}</h2>
-          <span className="text-xs text-dim">{item.nature}</span>
+          <h2 className="text-2xl font-bold text-ink tracking-tight">{item.word}</h2>
+          <span className="text-xs font-medium text-dim mt-0.5 block">{item.nature}</span>
         </div>
-        <span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${registreBadge[item.registre] ?? "bg-rim text-dim"}`}>
+        <span
+          className="text-xs font-semibold px-3 py-1 rounded-full flex-shrink-0 mt-0.5"
+          style={{ backgroundColor: badge.bg, color: badge.text }}
+        >
           {item.registre}
         </span>
       </div>
 
-      <div className="space-y-2 text-sm">
-        <p className="text-ink">{item.definition}</p>
-        <p className="text-dim italic">{item.traduction}</p>
+      {/* Definition + translation */}
+      <div className="space-y-1.5">
+        <p className="text-sm text-ink leading-relaxed">{item.definition}</p>
+        <p className="text-sm text-dim italic">{item.traduction}</p>
       </div>
 
+      {/* Examples */}
       {item.exemples.length > 0 && (
-        <ul className="space-y-1">
+        <ul className="space-y-2">
           {item.exemples.map((ex, i) => (
-            <li key={i} className="text-sm text-ink pl-3 border-l-2 border-cobalt/30 italic">
+            <li key={i} className="text-sm text-ink pl-4 border-l-[3px] border-cobalt/25 italic leading-relaxed">
               {ex}
             </li>
           ))}
         </ul>
       )}
 
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs">
-        {item.synonymes.length > 0 && (
-          <div>
-            <span className="font-semibold text-dim uppercase tracking-wide block mb-0.5">Synonymes</span>
-            <span className="text-ink">{item.synonymes.join(", ")}</span>
-          </div>
-        )}
-        {item.antonymes.length > 0 && (
-          <div>
-            <span className="font-semibold text-dim uppercase tracking-wide block mb-0.5">Antonymes</span>
-            <span className="text-ink">{item.antonymes.join(", ")}</span>
-          </div>
-        )}
-        {item.collocations.length > 0 && (
-          <div>
-            <span className="font-semibold text-dim uppercase tracking-wide block mb-0.5">Collocations</span>
-            <span className="text-ink">{item.collocations.join(", ")}</span>
-          </div>
-        )}
-      </div>
+      {/* Synonymes / Antonymes / Collocations */}
+      {(item.synonymes.length > 0 || item.antonymes.length > 0 || item.collocations.length > 0) && (
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-1">
+          {item.synonymes.length > 0 && (
+            <div>
+              <span className="text-[10px] font-bold text-dim uppercase tracking-widest block mb-1">Synonymes</span>
+              <span className="text-xs text-ink">{item.synonymes.join(", ")}</span>
+            </div>
+          )}
+          {item.antonymes.length > 0 && (
+            <div>
+              <span className="text-[10px] font-bold text-dim uppercase tracking-widest block mb-1">Antonymes</span>
+              <span className="text-xs text-ink">{item.antonymes.join(", ")}</span>
+            </div>
+          )}
+          {item.collocations.length > 0 && (
+            <div>
+              <span className="text-[10px] font-bold text-dim uppercase tracking-widest block mb-1">Collocations</span>
+              <span className="text-xs text-ink">{item.collocations.join(", ")}</span>
+            </div>
+          )}
+        </div>
+      )}
 
+      {/* Piège — amber callout */}
       {item.piege && (
-        <div className="bg-amber-50 border border-amber-200 rounded-lg p-3">
-          <span className="text-xs font-bold text-amber-700 uppercase tracking-wide block mb-1">Piège</span>
-          <p className="text-sm text-amber-900">{item.piege}</p>
+        <div className="rounded-xl p-4" style={{ backgroundColor: "rgba(251,191,36,0.10)", border: "1px solid rgba(251,191,36,0.35)" }}>
+          <span className="text-[10px] font-bold uppercase tracking-widest block mb-1.5" style={{ color: "#92400E" }}>
+            Attention — piège
+          </span>
+          <p className="text-sm leading-relaxed" style={{ color: "#78350F" }}>{item.piege}</p>
         </div>
       )}
     </div>

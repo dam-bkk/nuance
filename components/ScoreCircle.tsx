@@ -31,7 +31,7 @@ export default function ScoreCircle({ score, total }: { score: number; total: nu
           />
         </svg>
         <div className="absolute inset-0 flex flex-col items-center justify-center">
-          <span className="font-serif text-4xl font-bold text-navy">{pct}%</span>
+          <span className="text-4xl font-bold text-navy">{pct}%</span>
           <span className="text-xs text-[#6B7A99] mt-0.5">{score} / {total}</span>
         </div>
       </div>
