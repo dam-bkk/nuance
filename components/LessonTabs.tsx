@@ -8,16 +8,10 @@ import QCM from "./exercises/QCM";
 import GlisserDeposer from "./exercises/GlisserDeposer";
 import TexteATrous from "./exercises/TexteATrous";
 
-export default function LessonTabs({
-  items,
-  allItems,
-}: {
-  items: VocabItem[];
-  allItems: VocabItem[];
-}) {
+export default function LessonTabs({ items, allItems }: { items: VocabItem[]; allItems: VocabItem[] }) {
   return (
     <Tabs defaultValue="apercu" className="w-full">
-      <div className="sticky top-0 z-10 bg-cream border-b border-[#E0D8CF]">
+      <div className="sticky top-0 z-10 bg-white border-b border-rim shadow-sm">
         <div className="max-w-4xl mx-auto px-6">
           <TabsList className="bg-transparent h-auto gap-0 rounded-none w-full justify-start border-0 p-0">
             {[
@@ -30,7 +24,7 @@ export default function LessonTabs({
               <TabsTrigger
                 key={tab.value}
                 value={tab.value}
-                className="rounded-none border-b-2 border-transparent data-[state=active]:border-burgundy data-[state=active]:text-burgundy data-[state=active]:bg-transparent bg-transparent text-[#6B7A99] hover:text-navy px-4 py-3 text-sm font-medium transition-colors"
+                className="rounded-none border-b-2 border-transparent data-[state=active]:border-crimson data-[state=active]:text-crimson data-[state=active]:bg-transparent bg-transparent text-dim hover:text-ink px-4 py-3 text-sm font-medium transition-colors"
               >
                 {tab.label}
               </TabsTrigger>
@@ -40,21 +34,11 @@ export default function LessonTabs({
       </div>
 
       <div className="max-w-4xl mx-auto px-6 py-8">
-        <TabsContent value="apercu" className="mt-0">
-          <Apercu items={items} />
-        </TabsContent>
-        <TabsContent value="flashcards" className="mt-0">
-          <Flashcards items={items} />
-        </TabsContent>
-        <TabsContent value="qcm" className="mt-0">
-          <QCM items={items} allItems={allItems} />
-        </TabsContent>
-        <TabsContent value="glisser" className="mt-0">
-          <GlisserDeposer items={items} />
-        </TabsContent>
-        <TabsContent value="trous" className="mt-0">
-          <TexteATrous items={items} />
-        </TabsContent>
+        <TabsContent value="apercu" className="mt-0"><Apercu items={items} /></TabsContent>
+        <TabsContent value="flashcards" className="mt-0"><Flashcards items={items} /></TabsContent>
+        <TabsContent value="qcm" className="mt-0"><QCM items={items} allItems={allItems} /></TabsContent>
+        <TabsContent value="glisser" className="mt-0"><GlisserDeposer items={items} /></TabsContent>
+        <TabsContent value="trous" className="mt-0"><TexteATrous items={items} /></TabsContent>
       </div>
     </Tabs>
   );

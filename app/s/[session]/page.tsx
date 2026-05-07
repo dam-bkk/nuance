@@ -21,22 +21,23 @@ export default async function SessionPage({ params }: { params: Promise<{ sessio
 
   return (
     <div className="min-h-screen">
-      <header className="border-b border-[#E0D8CF] bg-cream">
+      <header className="bg-cobalt shadow-sm">
         <div className="max-w-4xl mx-auto px-6 py-4 flex items-center gap-4">
-          <Link href="/" className="text-[#6B7A99] hover:text-burgundy transition-colors text-sm">
+          <Link href="/" className="text-white/60 hover:text-white transition-colors text-sm">
             ← Retour
           </Link>
+          <div className="h-4 w-px bg-white/20" />
           <div>
-            <div className="flex items-center gap-2">
-              <span className="text-xs font-medium uppercase tracking-widest text-[#6B7A99]">
+            <div className="flex items-center gap-2 flex-wrap">
+              <span className="text-xs font-semibold text-white/70 uppercase tracking-widest">
                 Session {lesson.session}
               </span>
-              <span className="text-[#E0D8CF]">·</span>
-              <span className="text-xs text-[#6B7A99]">{formatDate(lesson.date)}</span>
-              <span className="text-[#E0D8CF]">·</span>
-              <span className="text-xs text-[#6B7A99]">{lesson.items.length} mots</span>
+              <span className="text-white/30">·</span>
+              <span className="text-xs text-white/60">{formatDate(lesson.date)}</span>
+              <span className="text-white/30">·</span>
+              <span className="text-xs text-white/60">{lesson.items.length} mots</span>
             </div>
-            <h1 className="font-serif text-xl text-navy mt-0.5">{lesson.theme}</h1>
+            <h1 className="text-white font-semibold text-base mt-0.5 leading-tight">{lesson.theme}</h1>
           </div>
         </div>
       </header>

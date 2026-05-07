@@ -12,39 +12,44 @@ export default function Home() {
 
   return (
     <div className="min-h-screen">
-      <header className="border-b border-[#E0D8CF] bg-cream sticky top-0 z-10">
-        <div className="max-w-4xl mx-auto px-6 py-4">
-          <h1 className="font-serif text-2xl font-bold text-burgundy">LexiC1</h1>
-          <p className="text-sm text-[#6B7A99]">Préparation DELF C1</p>
+      <header className="bg-cobalt border-b border-cobalt/20 shadow-sm">
+        <div className="max-w-4xl mx-auto px-6 py-5 flex items-center gap-3">
+          <div className="w-8 h-8 rounded-lg bg-crimson flex items-center justify-center">
+            <span className="text-white font-bold text-sm">C1</span>
+          </div>
+          <div>
+            <h1 className="text-white font-bold text-lg tracking-tight leading-none">LexiC1</h1>
+            <p className="text-cobalt-200 text-xs mt-0.5" style={{ color: "#93AAFF" }}>Préparation DELF C1</p>
+          </div>
         </div>
       </header>
 
       <main className="max-w-4xl mx-auto px-6 py-10">
         {lessons.length === 0 ? (
-          <div className="text-center py-24 text-[#6B7A99]">
-            <p className="text-lg font-serif">Aucune session trouvée.</p>
-            <p className="mt-2 text-sm">Ajoutez un fichier <code className="bg-[#F0EBE3] px-1 rounded">session-N.md</code> dans le dossier <code className="bg-[#F0EBE3] px-1 rounded">/content/</code>.</p>
+          <div className="text-center py-24 text-dim">
+            <p className="text-lg font-semibold">Aucune session trouvée.</p>
+            <p className="mt-2 text-sm">Ajoutez un fichier <code className="bg-rim px-1.5 py-0.5 rounded text-ink">session-N.md</code> dans <code className="bg-rim px-1.5 py-0.5 rounded text-ink">/content/</code>.</p>
           </div>
         ) : (
           <>
-            <h2 className="font-serif text-xl text-navy mb-6">Sessions</h2>
+            <h2 className="text-sm font-semibold uppercase tracking-widest text-dim mb-5">Sessions</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {lessons.map((lesson) => (
                 <Link
                   key={lesson.session}
                   href={`/s/${lesson.session}`}
-                  className="block bg-white border border-[#E0D8CF] rounded-xl p-6 hover:border-burgundy hover:shadow-md transition-all group"
+                  className="block bg-white border border-rim rounded-xl p-6 hover:border-cobalt hover:shadow-md transition-all group"
                 >
                   <div className="flex items-start justify-between">
-                    <span className="text-xs font-medium uppercase tracking-widest text-[#6B7A99]">
+                    <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-cobalt bg-cobalt/8 px-2.5 py-1 rounded-full" style={{ backgroundColor: "rgba(26,60,200,0.08)" }}>
                       Session {lesson.session}
                     </span>
-                    <span className="text-xs text-[#6B7A99]">{lesson.items.length} mots</span>
+                    <span className="text-xs text-dim bg-rim px-2 py-0.5 rounded-full">{lesson.items.length} mots</span>
                   </div>
-                  <h3 className="mt-3 font-serif text-lg text-navy group-hover:text-burgundy transition-colors leading-snug">
+                  <h3 className="mt-4 font-semibold text-base text-ink group-hover:text-cobalt transition-colors leading-snug">
                     {lesson.theme}
                   </h3>
-                  <p className="mt-2 text-xs text-[#6B7A99]">{formatDate(lesson.date)}</p>
+                  <p className="mt-1.5 text-xs text-dim">{formatDate(lesson.date)}</p>
                 </Link>
               ))}
             </div>

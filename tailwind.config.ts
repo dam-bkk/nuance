@@ -21,14 +21,16 @@ const config: Config = {
         border: "var(--border)",
         input: "var(--input)",
         ring: "var(--ring)",
-        cream: "#FAF7F2",
-        navy: "#1B2A4A",
-        burgundy: "#8B2635",
-        terracotta: "#C46D3A",
+        // design tokens — prefixed to avoid collisions with Tailwind defaults
+        frost: "#F0F4FF",    // page background
+        ink: "#0F1B3D",      // primary text
+        cobalt: "#1A3CC8",   // primary blue
+        crimson: "#C8192A",  // accent red
+        dim: "#5A6A99",      // muted text
+        rim: "#D0D9F5",      // borders
       },
       fontFamily: {
         sans: ["var(--font-sans)", "sans-serif"],
-        serif: ["var(--font-serif)", "serif"],
       },
       borderRadius: {
         lg: "var(--radius)",

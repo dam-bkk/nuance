@@ -4,32 +4,32 @@
 
 @layer base {
   :root {
-    --background: #FAF7F2;
-    --foreground: #1B2A4A;
+    --background: #F0F4FF;
+    --foreground: #0F1B3D;
     --card: #FFFFFF;
-    --card-foreground: #1B2A4A;
+    --card-foreground: #0F1B3D;
     --popover: #FFFFFF;
-    --popover-foreground: #1B2A4A;
-    --primary: #8B2635;
+    --popover-foreground: #0F1B3D;
+    --primary: #1A3CC8;
     --primary-foreground: #FFFFFF;
-    --secondary: #F0EBE3;
-    --secondary-foreground: #1B2A4A;
-    --muted: #F0EBE3;
-    --muted-foreground: #6B7A99;
-    --accent: #C46D3A;
+    --secondary: #E8EEFF;
+    --secondary-foreground: #0F1B3D;
+    --muted: #E8EEFF;
+    --muted-foreground: #5A6A99;
+    --accent: #C8192A;
     --accent-foreground: #FFFFFF;
-    --destructive: #ef4444;
+    --destructive: #C8192A;
     --destructive-foreground: #FFFFFF;
-    --border: #E0D8CF;
-    --input: #E0D8CF;
-    --ring: #8B2635;
-    --radius: 0.625rem;
+    --border: #D0D9F5;
+    --input: #D0D9F5;
+    --ring: #1A3CC8;
+    --radius: 0.75rem;
   }
-  * {
-    border-color: var(--border);
-    outline-color: color-mix(in srgb, var(--ring) 50%, transparent);
-  }
+  * { border-color: var(--border); }
   body {
-    @apply bg-cream text-navy font-sans antialiased;
+    background-color: #F0F4FF;
+    color: #0F1B3D;
+    font-family: var(--font-sans), sans-serif;
+    -webkit-font-smoothing: antialiased;
   }
 }
