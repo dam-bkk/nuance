@@ -38,7 +38,7 @@ export default function TexteATrous({ items }: { items: VocabItem[] }) {
       const distractors = shuffle(pool).slice(0, 3).map((i) => i.word);
       qs.push({ item, before: b.before, after: b.after, choices: shuffle([item.word, ...distractors]) });
     }
-    return qs;
+    return qs.slice(0, 10);
   }, [items]);
 
   const [index, setIndex] = useState(0);
